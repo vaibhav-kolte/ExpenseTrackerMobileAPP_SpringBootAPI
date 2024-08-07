@@ -10,4 +10,5 @@
     <string name="click_here_to_login">Click here to login</string>
     <string name="enter_password_again">Enter password again</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_in_text">Sign In</string>
 </resources>

@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LoginFragment">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/text_field_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_field_username"
@@ -24,7 +37,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +59,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/eye_off"
+            android:inputType="textPassword"
+            android:text="" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,8 +84,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         android:text="@string/sign_in_for_new_account"
-        android:textSize="12sp"
         android:textColor="@color/blue"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
