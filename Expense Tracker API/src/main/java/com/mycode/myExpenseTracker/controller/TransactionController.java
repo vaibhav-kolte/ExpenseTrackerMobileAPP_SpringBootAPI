@@ -28,7 +28,7 @@ public class TransactionController {
             if (transaction.getUsername().isEmpty()
                     || transaction.getTransactionType().isEmpty()
                     || String.valueOf(transaction.getTransactionAmount()).isEmpty()
-                    || transaction.getDate().isEmpty()) {
+                    || String.valueOf(transaction.getDate()).isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             if (loginAccountService.existsByUsername(transaction.getUsername())) {

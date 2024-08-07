@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.expensetracker.Account;
+import com.android.expensetracker.models.Account;
 import com.android.expensetracker.R;
 import com.android.expensetracker.databinding.FragmentSignInBinding;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,6 +53,13 @@ public class SignInFragment extends Fragment {
         }
     }
 
+    private void showProgress() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress(){
+        binding.progressBar.setVisibility(View.GONE);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void handleOnClickEvents() {
@@ -117,15 +124,18 @@ public class SignInFragment extends Fragment {
         if (!checkInputs(username, password, confirmPassword)) return;
 
         Account account = new Account(username, password);
+        showProgress();
         account.signIn(account, new Account.SignInInterface() {
             @Override
             public void onSuccessful(Account account) {
+                hideProgress();
                 Toast.makeText(getContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                 loginInterface.onLogin();
             }
 
             @Override
             public void onFailure() {
+                hideProgress();
                 Toast.makeText(context, "Something went wrong.", Toast.LENGTH_SHORT).show();
             }
         });

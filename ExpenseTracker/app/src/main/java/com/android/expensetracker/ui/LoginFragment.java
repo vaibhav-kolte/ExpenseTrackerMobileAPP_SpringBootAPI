@@ -2,7 +2,6 @@ package com.android.expensetracker.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -17,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.expensetracker.Account;
+import com.android.expensetracker.interfaces.NavigateInterface;
+import com.android.expensetracker.models.Account;
 import com.android.expensetracker.R;
 import com.android.expensetracker.databinding.FragmentLoginBinding;
+import com.android.expensetracker.utils.ShareData;
 
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
 
     private SignInInterface signInInterface;
+    private NavigateInterface navigateInterface;
 
     private boolean isShowingPassword = false;
 
@@ -45,6 +47,7 @@ public class LoginFragment extends Fragment {
         super.onAttach(context);
         try {
             signInInterface = (SignInInterface) context;
+            navigateInterface = (NavigateInterface) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context + " must implement SignInInterface");
         }
@@ -91,11 +94,16 @@ public class LoginFragment extends Fragment {
     void loginAccount(String username, String password) {
         if (!checkInputs(username, password)) return;
         Account loginAccount = new Account(username, password);
+        showProgress();
         loginAccount.login(username, new Account.LoginInterface() {
             @Override
             public void onSuccessful(Account account) {
+                hideProgress();
                 if (username.equals(account.getUsername()) && password.equals(account.getMyPassword())) {
-                    startActivity(new Intent(getContext(), DashboardActivity.class));
+                    ShareData shareData = new ShareData(getContext());
+                    shareData.putBoolean(ShareData.IS_LOGIN, true);
+                    shareData.putString(ShareData.USERNAME, account.getUsername());
+                    navigateInterface.navigateToDashboard();
                 } else {
                     Toast.makeText(getContext(), "Check your credentials", Toast.LENGTH_SHORT).show();
                 }
@@ -103,9 +111,18 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onFailure() {
+                hideProgress();
                 Toast.makeText(getContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showProgress() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        binding.progressBar.setVisibility(View.GONE);
     }
 
 

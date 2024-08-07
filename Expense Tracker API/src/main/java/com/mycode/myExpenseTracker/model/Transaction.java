@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @Entity
@@ -16,7 +18,7 @@ public class Transaction {
     private String username;
 
     @Column(nullable = false)
-    private String date;
+    private Date date;
 
     @Column(nullable = false)
     private double transactionAmount;
@@ -27,7 +29,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String username, String date, double transactionAmount, String transactionType) {
+    public Transaction(String username, Date date, double transactionAmount, String transactionType) {
         this.username = username;
         this.date = date;
         this.transactionAmount = transactionAmount;

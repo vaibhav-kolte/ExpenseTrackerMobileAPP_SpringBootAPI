@@ -11,4 +11,8 @@
     <string name="enter_password_again">Enter password again</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_in_text">Sign In</string>
+    <string name="rupee_symbol">₹ </string>
+    <string name="my_budget">My Budget</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="btn_add">Add</string>
 </resources>

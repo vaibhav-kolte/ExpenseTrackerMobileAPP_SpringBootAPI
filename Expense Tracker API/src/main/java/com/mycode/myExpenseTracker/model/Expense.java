@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 
 @Setter
 @Getter
@@ -23,7 +25,7 @@ public class Expense {
     private double expenseAmount;
 
     @Column(nullable = false)
-    private String date;
+    private Date date;
 
     private String expenseType;
 

@@ -1,4 +1,4 @@
-package com.android.expensetracker;
+package com.android.expensetracker.repository;
 
 import com.android.expensetracker.utils.Constant;
 
