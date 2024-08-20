@@ -3,8 +3,11 @@ package com.android.expensetracker.repository;
 import com.android.expensetracker.models.Account;
 import com.android.expensetracker.models.AddBalance;
 import com.android.expensetracker.models.BalanceResponse;
+import com.android.expensetracker.models.MyExpenses;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,4 +28,10 @@ public interface ApiService {
 
     @POST("/transaction/add")
     Call<Void> addBalance(@Body AddBalance addBalance);
+
+    @GET("/expense/getAll/{username}")
+    Call<List<MyExpenses>> getExpenses(@Path("username") String username);
+
+    @POST("/expense/add")
+    Call<Void> addExpense(@Body MyExpenses expenses);
 }

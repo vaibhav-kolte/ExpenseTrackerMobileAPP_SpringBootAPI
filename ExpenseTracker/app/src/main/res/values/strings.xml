@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ExpenseTracker</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
     <string name="sign_in_for_new_account">Sign in for new account</string>
     <string name="login">Login</string>
     <string name="enter_password">Enter password</string>
@@ -15,4 +17,9 @@
     <string name="my_budget">My Budget</string>
     <string name="enter_amount">Enter amount</string>
     <string name="btn_add">Add</string>
+    <string name="enter_date_dd_mm_yyyy">Enter date (DD/MM/YYYY)</string>
+    <string name="expense">Expense</string>
+    <string name="amount">Amount</string>
+    <string name="add">Add</string>
+    <string name="add_tag_optional">Add tag (optional)</string>
 </resources>
