@@ -2,6 +2,9 @@ package com.myproject.expensetacker.model;
 
 import androidx.annotation.NonNull;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class MyExpenses {
     private int id;
     private String username;
@@ -79,10 +82,16 @@ public class MyExpenses {
     @Override
     public String toString() {
 //        return "id=" + id +
-        return "\nusername='" + username + '\'' +
+        return "username='" + username + '\'' +
                 "\nexpenseName='" + expenseName + '\'' +
                 "\nexpenseAmount=" + expenseAmount +
-                "\ndate='" + date + '\'' +
+                "\ndate='" + formatDate(date) + '\'' +
                 "\nexpenseType='" + expenseType + '\'';
+    }
+
+    private String formatDate(String date){
+        OffsetDateTime offsetDateTime = OffsetDateTime.parse(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return offsetDateTime.format(formatter);
     }
 }

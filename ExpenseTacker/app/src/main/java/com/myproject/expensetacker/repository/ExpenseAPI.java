@@ -3,14 +3,17 @@ package com.myproject.expensetacker.repository;
 import com.myproject.expensetacker.interfaces.apis.APIException;
 import com.myproject.expensetacker.interfaces.apis.AddBalanceInterface;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
+import com.myproject.expensetacker.interfaces.apis.BalanceSummeryInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
+import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
+import com.myproject.expensetacker.interfaces.apis.TransactionByUsername;
 import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.AddBalance;
 import com.myproject.expensetacker.model.MyExpenses;
 
-public interface ExpenseAPIs {
+public interface ExpenseAPI {
     void availableBalance(String username, CurrentBalance balance, APIException exception);
 
     void loggedInAccount(String username, LoginSuccessfully loginSuccessfully, APIException exception);
@@ -20,4 +23,10 @@ public interface ExpenseAPIs {
     void addBalance(AddBalance balance, AddBalanceInterface balanceInterface, APIException exception);
 
     void addExpense(MyExpenses expenses, AddExpenseInterface expenseInterface, APIException exception);
+
+    void findBalanceSummery(String username, BalanceSummeryInterface summeryInterface, APIException exception);
+
+    void getAllTransactionByUsername(String username, TransactionByUsername transaction, APIException exception);
+
+    void getAllExpensesByUsername(String username, ExpenseByUsername expense, APIException exception);
 }

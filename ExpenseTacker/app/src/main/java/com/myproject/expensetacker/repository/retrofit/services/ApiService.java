@@ -4,6 +4,7 @@ package com.myproject.expensetacker.repository.retrofit.services;
 import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.AddBalance;
 import com.myproject.expensetacker.model.BalanceResponse;
+import com.myproject.expensetacker.model.BalanceSummery;
 import com.myproject.expensetacker.model.MyExpenses;
 import com.myproject.expensetacker.model.Transaction;
 
@@ -37,4 +38,7 @@ public interface ApiService {
 
     @GET("/transaction/getAll/{username}")
     Call<List<Transaction>> getTransaction(@Path("username") String username);
+
+    @GET("/transaction/balance/{username}")
+    Call<BalanceSummery> findBalanceSummery(@Path("username") String username);
 }

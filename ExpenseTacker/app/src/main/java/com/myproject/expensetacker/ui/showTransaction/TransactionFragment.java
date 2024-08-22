@@ -4,13 +4,21 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.myproject.expensetacker.adapter.ExpenseAdapter;
+import com.myproject.expensetacker.adapter.TransactionAdapter;
 import com.myproject.expensetacker.databinding.FragmentTransactionBinding;
+import com.myproject.expensetacker.model.Transaction;
 import com.myproject.expensetacker.utils.ShareData;
+
+import java.util.List;
 
 
 public class TransactionFragment extends Fragment {
@@ -27,7 +35,15 @@ public class TransactionFragment extends Fragment {
         binding = FragmentTransactionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        transactionViewModel.getText().observe(getViewLifecycleOwner(), binding.tvTransaction::setText);
+        transactionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<List<Transaction>>() {
+            @Override
+            public void onChanged(List<Transaction> transactions) {
+                TransactionAdapter adapter = new TransactionAdapter(transactions);
+                binding.transactionRecyclerView.setHasFixedSize(true);
+                binding.transactionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                binding.transactionRecyclerView.setAdapter(adapter);
+            }
+        });
 
         getMyTransaction();
         return root;

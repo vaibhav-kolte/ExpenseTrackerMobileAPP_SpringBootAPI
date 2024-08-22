@@ -9,8 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.databinding.ActivityAddBalanceBinding;
 import com.myproject.expensetacker.model.AddBalance;
-import com.myproject.expensetacker.repository.ExpenseAPIs;
-import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
 
 import java.time.LocalDate;
@@ -66,7 +66,7 @@ public class AddBalanceActivity extends AppCompatActivity {
     }
 
     private void addBalance(AddBalance addBalance){
-        ExpenseAPIs expenseAPIs = new RetrofitManager();
+        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
         expenseAPIs.addBalance(addBalance, this::finish, message -> {
             Toast.makeText(context, "Something went wrong.", Toast.LENGTH_SHORT).show();
         });

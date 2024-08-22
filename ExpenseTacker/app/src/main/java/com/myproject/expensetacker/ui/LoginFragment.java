@@ -19,8 +19,8 @@ import android.widget.Toast;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.FragmentLoginBinding;
 import com.myproject.expensetacker.interfaces.NavigateInterface;
-import com.myproject.expensetacker.repository.ExpenseAPIs;
-import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
 
 import java.util.Objects;
@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
     void loginAccount(String username, String password) {
         if (!checkInputs(username, password)) return;
         showProgress();
-        ExpenseAPIs expenseAPIs = new RetrofitManager();
+        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
 
         expenseAPIs.loggedInAccount(username, account -> {
             hideProgress();

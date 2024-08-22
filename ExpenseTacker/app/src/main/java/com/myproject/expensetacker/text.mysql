@@ -1,0 +1,10 @@
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-01",36,"Milk","Home","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-01",15,"Buttermilk","My Self","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-01",177,"Medical","Medical","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-01",667.9,"Mobile Recharge","Recharge","vaibhav");
+
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-02",45,"Sago","Home","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-02",15,"Buttermilk","My Self","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-02",30,"Sugarcane Juice","Home","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-02",40,"Bajar","Home","vaibhav");
+insert into expense(date,expense_amount,expense_name,expense_type,username) values("2024-04-02",10,"Other","Other","vaibhav");

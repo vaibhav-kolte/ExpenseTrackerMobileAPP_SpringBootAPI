@@ -4,44 +4,56 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.myproject.expensetacker.repository.ExpenseAPIs;
-import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
+import com.myproject.expensetacker.model.BalanceSummery;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
 
 public class HomeViewModel extends AndroidViewModel {
 
     private static final String TAG = "HomeViewModel";
-    private final MutableLiveData<String> mText;
     private final MutableLiveData<Double> myBudget;
+    private final MutableLiveData<BalanceSummery> balanceSummery;
 
     public HomeViewModel(Application application) {
         super(application);
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
 
         myBudget = new MutableLiveData<>();
-    }
-
-    public LiveData<String> getText() {
-        return mText;
+        balanceSummery = new MutableLiveData<>();
     }
 
     public MutableLiveData<Double> getMyBudget() {
         return myBudget;
     }
 
+    public MutableLiveData<BalanceSummery> getBalanceSummery() {
+        return balanceSummery;
+    }
+
     public void getMyBudgetUsingAPI() {
 
-        ExpenseAPIs expenseAPIs = new RetrofitManager();
+        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
 
         ShareData shareData = new ShareData(getApplication().getApplicationContext());
 
         String username = shareData.getString(ShareData.USERNAME, "");
 
         expenseAPIs.availableBalance(username, myBudget::setValue, message -> {
+            Log.e(TAG, "getMyBudgetUsingAPI: Exception: " + message);
+            myBudget.setValue(0.0);
+        });
+    }
+
+    public void findBalanceSummery(){
+        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
+
+        ShareData shareData = new ShareData(getApplication().getApplicationContext());
+
+        String username = shareData.getString(ShareData.USERNAME, "");
+
+        expenseAPIs.findBalanceSummery(username, this.balanceSummery::setValue, message -> {
             Log.e(TAG, "getMyBudgetUsingAPI: Exception: " + message);
             myBudget.setValue(0.0);
         });

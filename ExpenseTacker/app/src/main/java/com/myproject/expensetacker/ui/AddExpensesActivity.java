@@ -14,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.databinding.ActivityAddExpensesBinding;
 import com.myproject.expensetacker.interfaces.DatePicker;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.ExpenseAPIs;
-import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -79,7 +81,7 @@ public class AddExpensesActivity extends AppCompatActivity {
             String tag = Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty()
                     ? "Extra" : Objects.requireNonNull(binding.etTag.getText()).toString();
             String date = Objects.requireNonNull(binding.etDate.getText()).toString();
-            float amount = Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString());
+            double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
             String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
 
             MyExpenses expenses = new MyExpenses(username, expense, amount, date, tag);
@@ -87,8 +89,13 @@ public class AddExpensesActivity extends AppCompatActivity {
         });
     }
 
+    private double getFormatedAmount(double amount){
+        BigDecimal bd = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     private void addExpense(MyExpenses expenses) {
-        ExpenseAPIs expenseAPIs = new RetrofitManager();
+        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
         expenseAPIs.addExpense(expenses, () -> {
             Toast.makeText(context, "Expense Added successfully.", Toast.LENGTH_SHORT).show();
             finish();
@@ -103,7 +110,7 @@ public class AddExpensesActivity extends AppCompatActivity {
         binding.etExpense.setText("");
         binding.etAmount.setText("");
         binding.etTag.setText("");
-        String[] timeArray = new String[]{"Select Tag", "My Self", "Bike", "Home", "Travel", "Hotel"};
+        String[] timeArray = new String[]{"Select Tag", "My Self", "Home", "Bike", "Recharge", "Medical", "Travel", "Outside food", "Member"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, timeArray);
         binding.etTag.setText(arrayAdapter.getItem(0));
         binding.etTag.setAdapter(arrayAdapter);

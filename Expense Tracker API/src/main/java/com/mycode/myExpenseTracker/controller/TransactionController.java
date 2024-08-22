@@ -1,5 +1,7 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.entities.Balance;
+import com.mycode.myExpenseTracker.entities.MonthlyExpenseDTO;
 import com.mycode.myExpenseTracker.model.Transaction;
 import com.mycode.myExpenseTracker.entities.BalanceResponse;
 import com.mycode.myExpenseTracker.model.ErrorResponse;
@@ -81,12 +83,50 @@ public class TransactionController {
         }
     }
 
+    @GetMapping("/balance/{username}")
+    public ResponseEntity<?> getBalance(@PathVariable String username) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                Balance creditBalance = transactionService.getBalance(username);
+
+                return new ResponseEntity<>(creditBalance, HttpStatus.OK);
+            } else {
+                ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                        "User is not exits");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "An error occurred: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    @GetMapping("/monthlyExpenses/{username}")
+//    public ResponseEntity<?> findMonthlyExpenses(@PathVariable String username) {
+//        try {
+//            if (loginAccountService.existsByUsername(username)) {
+//                List<MonthlyExpenseDTO> creditBalance = transactionService.findMonthlyExpenses(username);
+//
+//                return new ResponseEntity<>(creditBalance, HttpStatus.OK);
+//            } else {
+//                ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+//                        "User is not exits");
+//                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//            }
+//        } catch (Exception e) {
+//            ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                    "An error occurred: " + e.getMessage());
+//            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     @GetMapping("/{transactionType}/{username}")
     public ResponseEntity<?> getAllDebitTransaction(@PathVariable String transactionType,
                                                     @PathVariable String username) {
         try {
             if (loginAccountService.existsByUsername(username)) {
-                List<Transaction> debitTransaction= transactionService.getTransactionsForUser(transactionType,username);
+                List<Transaction> debitTransaction = transactionService.getTransactionsForUser(transactionType, username);
                 return new ResponseEntity<>(debitTransaction, HttpStatus.OK);
             } else {
                 ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),

@@ -10,12 +10,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.myproject.expensetacker.databinding.FragmentHomeBinding;
-import com.myproject.expensetacker.repository.ExpenseAPIs;
-import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
+import com.myproject.expensetacker.model.BalanceSummery;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class HomeFragment extends Fragment {
 
@@ -31,36 +36,37 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel.getText().observe(getViewLifecycleOwner(), binding.textHome::setText);
         homeViewModel.getMyBudget().observe(getViewLifecycleOwner(),
-                aDouble -> binding.tvMyBudget.setText(String.valueOf(aDouble)));
+                aDouble -> binding.tvMyBudget.setText(String.valueOf(getFormatedAmount(aDouble))));
+
+        homeViewModel.getBalanceSummery().observe(getViewLifecycleOwner(), balanceSummery -> {
+//            binding.tvMyBudget.setText(String.valueOf(getFormatedAmount(balanceSummery.getAvailableBalance())));
+            binding.tvIncomeBalance.setText(String.valueOf(balanceSummery.getCreditCurrentMonth()));
+            binding.tvExpenseBalance.setText(String.valueOf(balanceSummery.getDebitCurrentMonth()));
+        });
 
         context = getContext();
         handleOnClickEvents();
         return root;
     }
 
-
+    private double getFormatedAmount(double amount){
+        BigDecimal bd = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
     private void handleOnClickEvents() {
         binding.bankCard.setOnClickListener(view -> {
             Intent intent = new Intent(context, AddBalanceActivity.class);
             startActivity(intent);
         });
 
-        binding.btnCheckBalance.setOnClickListener(view -> {
-            ExpenseAPIs expenseAPIs = new RetrofitManager();
-            expenseAPIs.availableBalance("pankaj", balance -> {
-                Toast.makeText(context, "Got balance: " + balance, Toast.LENGTH_SHORT).show();
-            }, message -> {
-                Toast.makeText(context, "Failed to get balance: " + message, Toast.LENGTH_SHORT).show();
-            });
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         homeViewModel.getMyBudgetUsingAPI();
+        homeViewModel.findBalanceSummery();
     }
 
     @Override
