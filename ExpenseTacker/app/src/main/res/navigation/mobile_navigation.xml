@@ -27,9 +27,4 @@
         android:name="com.myproject.expensetacker.ui.showExpenses.ShowExpensesFragment"
         android:label="@string/menu_my_expenses"
         tools:layout="@layout/fragment_show_expenses" />
-    <fragment
-        android:id="@+id/nav_my_transaction"
-        android:name="com.myproject.expensetacker.ui.showTransaction.TransactionFragment"
-        android:label="@string/menu_my_transaction"
-        tools:layout="@layout/fragment_transaction" />
 </navigation>

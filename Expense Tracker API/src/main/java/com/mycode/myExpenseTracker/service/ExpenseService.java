@@ -28,11 +28,16 @@ public class ExpenseService {
     public void delete(Integer id){
         expenseRepository.deleteById(id);
     }
+
     public boolean checkUsernameAndIdExists(String username, Integer id) {
         return expenseRepository.existsByUsernameAndId(username, id);
     }
 
     public void deleteExpensesByUsername(String username) {
         expenseRepository.deleteByUsername(username);
+    }
+
+    public double getAvailableBalance(String username) {
+        return expenseRepository.getAvailableBalanceByUsername(username);
     }
 }

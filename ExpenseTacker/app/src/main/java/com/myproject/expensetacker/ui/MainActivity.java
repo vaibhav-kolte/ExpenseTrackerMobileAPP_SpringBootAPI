@@ -36,15 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        handleFabButton();
+
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_my_expenses, R.id.nav_my_transaction)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_my_expenses)
                 .setOpenableLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this,
                 R.id.nav_host_fragment_content_main);
 
@@ -54,12 +55,6 @@ public class MainActivity extends AppCompatActivity {
         // My own code start here
         context = MainActivity.this;
         updateNavigationHeaderLayout(navigationView);
-    }
-
-    private void handleFabButton() {
-        binding.appBarMain.fab.setOnClickListener(view -> {
-            startActivity(new Intent(context, AddExpensesActivity.class));
-        });
     }
 
 

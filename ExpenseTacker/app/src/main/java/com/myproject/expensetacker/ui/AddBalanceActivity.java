@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.databinding.ActivityAddBalanceBinding;
-import com.myproject.expensetacker.model.AddBalance;
+import com.myproject.expensetacker.model.MyExpenses;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
@@ -58,16 +59,16 @@ public class AddBalanceActivity extends AppCompatActivity {
             ShareData shareData = new ShareData(context);
             String username = shareData.getString(ShareData.USERNAME, "");
 
-            AddBalance addBalance = new AddBalance(username, formattedDate, amount, "CREDIT");
-            System.out.println(addBalance);
-            addBalance(addBalance);
+            MyExpenses myExpenses = new MyExpenses(username, "", amount,formattedDate ,
+                    "","CREDIT");
+            addBalance(myExpenses);
 
         });
     }
 
-    private void addBalance(AddBalance addBalance){
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
-        expenseAPIs.addBalance(addBalance, this::finish, message -> {
+    private void addBalance(MyExpenses myExpenses){
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        expenseAPIs.addExpense(myExpenses, this::finish, message -> {
             Toast.makeText(context, "Something went wrong.", Toast.LENGTH_SHORT).show();
         });
     }

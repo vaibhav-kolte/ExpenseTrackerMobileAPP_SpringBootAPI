@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.myproject.expensetacker.model.MyExpenses;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 
@@ -25,7 +26,7 @@ public class ShowExpensesViewModel extends ViewModel {
     }
 
     public void getExpenses(String username) {
-        ExpenseAPI expenseAPI = new ExpenseAPIImpl();
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
         expenseAPI.getAllExpensesByUsername(username, expensesList::setValue, message -> {
             Log.e(TAG, "getExpenses: Exception: " + message);
         });

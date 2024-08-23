@@ -1,5 +1,6 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.exceptions.UserNotFound;
 import com.mycode.myExpenseTracker.model.ErrorResponse;
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.service.ExpenseService;
@@ -58,18 +59,14 @@ public class LoginAccountController {
     }
 
     @GetMapping("/get/{username}")
-    public ResponseEntity<LoginAccount> getByUsername(@PathVariable String username) {
+    public ResponseEntity<?> getByUsername(@PathVariable String username) throws UserNotFound {
         try {
             LoginAccount loginAccount = loginAccountService.getByUsername(username);
             System.out.println("Username : " + loginAccount.getUsername());
             return new ResponseEntity<>(loginAccount, HttpStatus.OK);
 
-        } catch (NullPointerException e) {
-            System.out.println("null Not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (NoSuchElementException e) {
-            System.out.println("Not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException | NoSuchElementException e) {
+            throw new UserNotFound("User Not Found!");
         }
     }
 

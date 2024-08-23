@@ -44,9 +44,13 @@ public class ShowExpensesFragment extends Fragment {
                 binding.expenseRecyclerView.setAdapter(adapter);
             }
         });
-
-        getMyExpenses();
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMyExpenses();
     }
 
     private void getMyExpenses() {

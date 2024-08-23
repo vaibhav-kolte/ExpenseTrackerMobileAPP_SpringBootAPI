@@ -2,9 +2,12 @@ package com.myproject.expensetacker.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,9 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.databinding.ActivityAddExpensesBinding;
 import com.myproject.expensetacker.interfaces.DatePicker;
 import com.myproject.expensetacker.model.MyExpenses;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
+import com.myproject.expensetacker.utils.Constant;
 import com.myproject.expensetacker.utils.ShareData;
+import com.myproject.expensetacker.utils.Utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,9 +32,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class AddExpensesActivity extends AppCompatActivity {
+    private static final String TAG = "AddExpensesActivity";
     private ActivityAddExpensesBinding binding;
     private Context context;
     private String username;
+    private MyExpenses myExpenses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +47,32 @@ public class AddExpensesActivity extends AppCompatActivity {
         context = AddExpensesActivity.this;
         ShareData shareData = new ShareData(context);
         username = shareData.getString(ShareData.USERNAME, "");
-        AddExpensesActivity.this.setTitle("Add Expense");
+
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         handleOnClickEvents();
 
         clearFiled();
 
+        Intent i = getIntent();
+        myExpenses = (MyExpenses) i.getSerializableExtra("EXPENSE_OBJECT");
+        if (myExpenses == null) {
+            AddExpensesActivity.this.setTitle("Add Expense");
+        } else {
+            AddExpensesActivity.this.setTitle("Update Expense");
+            updateResource(myExpenses);
+        }
+        Log.e(TAG, "onCreate: MyExpense: " + myExpenses);
+    }
+
+    private void updateResource(MyExpenses myExpenses) {
+        binding.etDate.setText(Utils.formatDate(myExpenses.getDate()));
+        binding.etExpense.setText(myExpenses.getExpenseName());
+        binding.etAmount.setText(String.valueOf(myExpenses.getExpenseAmount()));
+        updateExpenseType(myExpenses.getExpenseType());
+        binding.btnSave.setVisibility(View.GONE);
+        binding.btnUpdate.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -84,23 +111,51 @@ public class AddExpensesActivity extends AppCompatActivity {
             double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
             String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
 
-            MyExpenses expenses = new MyExpenses(username, expense, amount, date, tag);
+            MyExpenses expenses = new MyExpenses(username, expense, amount, date, tag,"DEBIT");
             addExpense(expenses);
+        });
+
+        binding.btnUpdate.setOnClickListener(view -> {
+            if (Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(binding.etAmount.getText()).toString().isEmpty() ||
+                    Objects.requireNonNull(binding.etExpense.getText()).toString().isEmpty()
+            ) {
+                return;
+            }
+            String tag = Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty()
+                    ? "Extra" : Objects.requireNonNull(binding.etTag.getText()).toString();
+            String date = Objects.requireNonNull(binding.etDate.getText()).toString();
+            double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
+            String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
+
+            MyExpenses expenses = new MyExpenses(myExpenses.getId(), username, expense, amount,
+                    date, tag,"DEBIT");
+            updateExpense(expenses);
         });
     }
 
-    private double getFormatedAmount(double amount){
+    private double getFormatedAmount(double amount) {
         BigDecimal bd = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
 
     private void addExpense(MyExpenses expenses) {
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
         expenseAPIs.addExpense(expenses, () -> {
             Toast.makeText(context, "Expense Added successfully.", Toast.LENGTH_SHORT).show();
             finish();
         }, message -> {
 
+        });
+    }
+
+    private void updateExpense(MyExpenses myExpenses) {
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        expenseAPIs.updateExpense(myExpenses, () -> {
+            Toast.makeText(context, "Expense Updated successfully.", Toast.LENGTH_SHORT).show();
+            finish();
+        }, message -> {
+            Log.e(TAG, "updateExpense: Exception: " + message);
         });
     }
 
@@ -110,9 +165,14 @@ public class AddExpensesActivity extends AppCompatActivity {
         binding.etExpense.setText("");
         binding.etAmount.setText("");
         binding.etTag.setText("");
-        String[] timeArray = new String[]{"Select Tag", "My Self", "Home", "Bike", "Recharge", "Medical", "Travel", "Outside food", "Member"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, timeArray);
-        binding.etTag.setText(arrayAdapter.getItem(0));
+        updateExpenseType("Select Tag");
+
+    }
+
+    private void updateExpenseType(String selectTag) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, Constant.expenseType);
+        binding.etTag.setText(selectTag);
         binding.etTag.setAdapter(arrayAdapter);
     }
 

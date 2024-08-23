@@ -20,9 +20,5 @@
             android:id="@+id/nav_my_expenses"
             android:icon="@drawable/icon_currency_rupee"
             android:title="@string/menu_my_expenses" />
-        <item
-            android:id="@+id/nav_my_transaction"
-            android:icon="@drawable/icon_currency_rupee"
-            android:title="@string/menu_my_transaction" />
     </group>
 </menu>

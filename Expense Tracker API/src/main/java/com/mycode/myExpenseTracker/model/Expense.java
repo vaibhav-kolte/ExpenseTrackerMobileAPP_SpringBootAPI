@@ -29,6 +29,9 @@ public class Expense {
 
     private String expenseType;
 
+    @Column(nullable = false)
+    private String transactionType;
+
     public Expense() {
     }
 
@@ -41,6 +44,7 @@ public class Expense {
                 ", expenseAmount=" + expenseAmount +
                 ", date=" + date +
                 ", expenseType='" + expenseType + '\'' +
+                ", transactionType='" + transactionType + '\'' +
                 '}';
     }
 }

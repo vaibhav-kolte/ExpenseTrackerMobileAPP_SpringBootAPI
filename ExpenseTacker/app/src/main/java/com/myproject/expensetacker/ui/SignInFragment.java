@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.FragmentSignInBinding;
 import com.myproject.expensetacker.model.Account;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 
@@ -127,7 +128,7 @@ public class SignInFragment extends Fragment {
         if (!checkInputs(username, password, confirmPassword)) return;
         Account account = new Account(username, password);
         showProgress();
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
         expenseAPIs.signInAccount(account, () -> {
             hideProgress();
             Toast.makeText(getContext(), "Account created successfully", Toast.LENGTH_SHORT).show();

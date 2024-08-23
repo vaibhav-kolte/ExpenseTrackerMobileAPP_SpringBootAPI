@@ -2,39 +2,45 @@ package com.myproject.expensetacker.model;
 
 import androidx.annotation.NonNull;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import com.myproject.expensetacker.utils.Utils;
 
-public class MyExpenses {
-    private int id;
+import java.io.Serializable;
+
+public class MyExpenses implements Serializable {
+    private long id;
     private String username;
     private String expenseName;
     private double expenseAmount;
     private String date;
     private String expenseType;
+    private String transactionType;
 
-    public MyExpenses(int id, String username, String expenseName, double expenseAmount, String date, String expenseType) {
+    public MyExpenses(long id, String username, String expenseName,
+                      double expenseAmount, String date, String expenseType, String transactionType) {
         this.id = id;
         this.username = username;
         this.expenseName = expenseName;
         this.expenseAmount = expenseAmount;
         this.date = date;
         this.expenseType = expenseType;
+        this.transactionType = transactionType;
     }
 
-    public MyExpenses(String username, String expenseName, double expenseAmount, String date, String expenseType) {
+    public MyExpenses(String username, String expenseName, double expenseAmount,
+                      String date, String expenseType, String transactionType) {
         this.username = username;
         this.expenseName = expenseName;
         this.expenseAmount = expenseAmount;
         this.date = date;
         this.expenseType = expenseType;
+        this.transactionType = transactionType;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -78,20 +84,22 @@ public class MyExpenses {
         this.expenseType = expenseType;
     }
 
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
     @NonNull
     @Override
     public String toString() {
-//        return "id=" + id +
         return "username='" + username + '\'' +
                 "\nexpenseName='" + expenseName + '\'' +
                 "\nexpenseAmount=" + expenseAmount +
-                "\ndate='" + formatDate(date) + '\'' +
-                "\nexpenseType='" + expenseType + '\'';
-    }
-
-    private String formatDate(String date){
-        OffsetDateTime offsetDateTime = OffsetDateTime.parse(date);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return offsetDateTime.format(formatter);
+                "\ndate='" + Utils.formatDate(date) + '\'' +
+                "\nexpenseType='" + expenseType + '\'' +
+                "\ntransactionType='" + transactionType + '\'';
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.myproject.expensetacker.model.BalanceSummery;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;
@@ -34,7 +35,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void getMyBudgetUsingAPI() {
 
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
 
         ShareData shareData = new ShareData(getApplication().getApplicationContext());
 
@@ -46,16 +47,4 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
-    public void findBalanceSummery(){
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
-
-        ShareData shareData = new ShareData(getApplication().getApplicationContext());
-
-        String username = shareData.getString(ShareData.USERNAME, "");
-
-        expenseAPIs.findBalanceSummery(username, this.balanceSummery::setValue, message -> {
-            Log.e(TAG, "getMyBudgetUsingAPI: Exception: " + message);
-            myBudget.setValue(0.0);
-        });
-    }
 }

@@ -6,18 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.myproject.expensetacker.databinding.FragmentHomeBinding;
-import com.myproject.expensetacker.model.BalanceSummery;
-import com.myproject.expensetacker.repository.ExpenseAPI;
-import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
+import com.myproject.expensetacker.ui.AddExpensesActivity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,7 +36,6 @@ public class HomeFragment extends Fragment {
                 aDouble -> binding.tvMyBudget.setText(String.valueOf(getFormatedAmount(aDouble))));
 
         homeViewModel.getBalanceSummery().observe(getViewLifecycleOwner(), balanceSummery -> {
-//            binding.tvMyBudget.setText(String.valueOf(getFormatedAmount(balanceSummery.getAvailableBalance())));
             binding.tvIncomeBalance.setText(String.valueOf(balanceSummery.getCreditCurrentMonth()));
             binding.tvExpenseBalance.setText(String.valueOf(balanceSummery.getDebitCurrentMonth()));
         });
@@ -60,13 +55,16 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
+        binding.fab.setOnClickListener(view -> {
+            startActivity(new Intent(context, AddExpensesActivity.class));
+        });
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         homeViewModel.getMyBudgetUsingAPI();
-        homeViewModel.findBalanceSummery();
     }
 
     @Override

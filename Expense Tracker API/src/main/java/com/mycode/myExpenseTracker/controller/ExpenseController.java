@@ -32,21 +32,19 @@ public class ExpenseController {
     public ResponseEntity<?> add(@RequestBody Expense expense) {
         try {
             if (expense.getUsername().isEmpty()
-                    || expense.getExpenseName().isEmpty()
                     || String.valueOf(expense.getExpenseAmount()).isEmpty()
                     || String.valueOf(expense.getDate()).isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             if (loginAccountService.existsByUsername(expense.getUsername())) {
-                if (transactionService.getAvailableBalance(expense.getUsername())
+                if(expense.getTransactionType().equalsIgnoreCase("credit")){
+                    expenseService.save(expense);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+
+                if (expenseService.getAvailableBalance(expense.getUsername())
                         >= expense.getExpenseAmount()) {
                     expenseService.save(expense);
-                    transactionService.save(new Transaction(
-                            expense.getUsername(),
-                            expense.getDate(),
-                            expense.getExpenseAmount(),
-                            "DEBIT"
-                    ));
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
                 return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
@@ -144,6 +142,25 @@ public class ExpenseController {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.OK.value(), "Expenses deleted successfully"), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An error occurred: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/available-balance/{username}")
+    public ResponseEntity<?> getAvailableBalance(@PathVariable String username) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                double availableBalance = expenseService.getAvailableBalance(username);
+                return new ResponseEntity<>(availableBalance, HttpStatus.OK);
+            } else {
+                ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
+                        "User is not exits");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "An error occurred: " + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

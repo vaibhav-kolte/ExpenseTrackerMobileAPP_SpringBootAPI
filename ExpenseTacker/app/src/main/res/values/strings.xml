@@ -31,6 +31,7 @@
     <string name="expense">Expense</string>
     <string name="add_expense">Add Expense</string>
     <string name="save">Save</string>
+    <string name="btn_update">Update</string>
     <string name="cancel">Cancel</string>
     <string name="tv_my_budget">My Budget</string>
     <string name="btn_add_balance">Add Balance</string>

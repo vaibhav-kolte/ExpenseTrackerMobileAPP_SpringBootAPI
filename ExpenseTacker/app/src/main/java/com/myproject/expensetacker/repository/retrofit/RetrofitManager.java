@@ -4,25 +4,23 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.myproject.expensetacker.interfaces.apis.APIException;
-import com.myproject.expensetacker.interfaces.apis.AddBalanceInterface;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
-import com.myproject.expensetacker.interfaces.apis.BalanceSummeryInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
+import com.myproject.expensetacker.interfaces.apis.DeleteExpense;
 import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
-import com.myproject.expensetacker.interfaces.apis.TransactionByUsername;
+import com.myproject.expensetacker.interfaces.apis.UpdateExpense;
 import com.myproject.expensetacker.model.Account;
-import com.myproject.expensetacker.model.AddBalance;
-import com.myproject.expensetacker.model.BalanceResponse;
-import com.myproject.expensetacker.model.BalanceSummery;
+import com.myproject.expensetacker.model.ApiError;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.model.Transaction;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.retrofit.client.RetrofitClient;
 import com.myproject.expensetacker.repository.retrofit.services.ApiService;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,22 +29,23 @@ import retrofit2.Response;
 
 public class RetrofitManager implements ExpenseAPI {
 
+    private static final String TAG = "RetrofitManager";
 
     @Override
     public void availableBalance(String username, CurrentBalance balance, APIException exception) {
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        Call<BalanceResponse> call = apiService.getAvailableBalance(username);
+        Call<Double> call = apiService.getAvailableBalance(username);
 
-        call.enqueue(new Callback<BalanceResponse>() {
+        call.enqueue(new Callback<Double>() {
             @Override
-            public void onResponse(@NonNull Call<BalanceResponse> call,
-                                   @NonNull Response<BalanceResponse> response) {
+            public void onResponse(@NonNull Call<Double> call,
+                                   @NonNull Response<Double> response) {
                 if (response.isSuccessful()) {
-                    BalanceResponse repos = response.body();
-                    if (repos != null) {
-                        balance.currentBalance(repos.getAvailableBalance());
+                    Double availableBalance = response.body();
+                    if (availableBalance != null) {
+                        balance.currentBalance(availableBalance);
                     } else {
                         exception.apiCalledFailed(response.message());
                     }
@@ -56,7 +55,7 @@ public class RetrofitManager implements ExpenseAPI {
             }
 
             @Override
-            public void onFailure(@NonNull Call<BalanceResponse> call,
+            public void onFailure(@NonNull Call<Double> call,
                                   @NonNull Throwable t) {
 
                 exception.apiCalledFailed(t.getMessage());
@@ -75,12 +74,22 @@ public class RetrofitManager implements ExpenseAPI {
             @Override
             public void onResponse(@NonNull Call<Account> call,
                                    @NonNull Response<Account> response) {
+                Log.e(TAG, "onResponse: Login " + response);
                 if (response.isSuccessful()) {
                     Account login = response.body();
                     assert login != null;
                     loginSuccessfully.loggedInSuccessfully(login);
                 } else {
-                    exception.apiCalledFailed(response.message());
+                    try {
+                        Gson gson = new Gson();
+                        assert response.errorBody() != null;
+                        ApiError apiError = gson.fromJson(response.errorBody().string(), ApiError.class);
+
+                        exception.apiCalledFailed(apiError.getDetail());
+
+                    } catch (IOException e) {
+                        exception.apiCalledFailed("Need to check API. Contact developer.");
+                    }
                 }
             }
 
@@ -117,34 +126,6 @@ public class RetrofitManager implements ExpenseAPI {
     }
 
     @Override
-    public void addBalance(AddBalance balance, AddBalanceInterface balanceInterface, APIException exception) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<Void> call = apiService.addBalance(balance);
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(@NonNull Call<Void> call,
-                                   @NonNull Response<Void> response) {
-                if (response.isSuccessful()) {
-                    if (response.code() == 200) {
-                        balanceInterface.balanceAddedSuccessfully();
-                    } else {
-                        exception.apiCalledFailed(response.message());
-                    }
-                } else {
-                    exception.apiCalledFailed(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call,
-                                  @NonNull Throwable t) {
-                exception.apiCalledFailed(t.getMessage());
-            }
-        });
-    }
-
-    @Override
     public void addExpense(MyExpenses expenses, AddExpenseInterface expenseInterface, APIException exception) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
@@ -169,56 +150,6 @@ public class RetrofitManager implements ExpenseAPI {
         });
     }
 
-    @Override
-    public void findBalanceSummery(String username, BalanceSummeryInterface summeryInterface, APIException exception) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-
-        Call<BalanceSummery> call = apiService.findBalanceSummery(username);
-
-        call.enqueue(new Callback<BalanceSummery>() {
-            @Override
-            public void onResponse(@NonNull Call<BalanceSummery> call,
-                                   @NonNull Response<BalanceSummery> response) {
-                if (response.isSuccessful()) {
-                    BalanceSummery summery = response.body();
-                    summeryInterface.BalanceSummery(summery);
-                } else {
-                    exception.apiCalledFailed(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<BalanceSummery> call,
-                                  @NonNull Throwable t) {
-                exception.apiCalledFailed(t.getMessage());
-            }
-        });
-    }
-
-    @Override
-    public void getAllTransactionByUsername(String username, TransactionByUsername transaction, APIException exception) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-
-        Call<List<Transaction>> call = apiService.getTransaction(username);
-        call.enqueue(new Callback<List<Transaction>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Transaction>> call,
-                                   @NonNull Response<List<Transaction>> response) {
-                if (response.isSuccessful()) {
-                    List<Transaction> repos = response.body();
-                    transaction.myTransaction(repos);
-                } else {
-                    exception.apiCalledFailed(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Transaction>> call,
-                                  @NonNull Throwable t) {
-                exception.apiCalledFailed(t.getMessage());
-            }
-        });
-    }
 
     @Override
     public void getAllExpensesByUsername(String username, ExpenseByUsername expense, APIException exception) {
@@ -240,6 +171,58 @@ public class RetrofitManager implements ExpenseAPI {
             @Override
             public void onFailure(@NonNull Call<List<MyExpenses>> call,
                                   @NonNull Throwable t) {
+                exception.apiCalledFailed(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void updateExpense(MyExpenses myExpenses, UpdateExpense updateExpense, APIException exception) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        Call<Void> call = apiService.updateExpense(myExpenses.getUsername(), myExpenses.getId(), myExpenses);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                Log.e("TAG", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    updateExpense.expenseUpdated();
+                } else {
+                    exception.apiCalledFailed(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call,
+                                  @NonNull Throwable t) {
+                Log.e("TAG", "onFailure: " + t);
+                exception.apiCalledFailed(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void deleteExpense(String username, long id, DeleteExpense deleteExpense, APIException exception) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        Call<Void> call = apiService.deleteExpense(username, id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                Log.e("TAG", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    deleteExpense.expenseDeleted();
+                } else {
+                    exception.apiCalledFailed(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call,
+                                  @NonNull Throwable t) {
+                Log.e("TAG", "onFailure: " + t);
                 exception.apiCalledFailed(t.getMessage());
             }
         });

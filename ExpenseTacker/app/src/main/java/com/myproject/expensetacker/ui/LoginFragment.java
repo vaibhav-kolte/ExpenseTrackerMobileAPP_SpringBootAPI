@@ -19,14 +19,17 @@ import android.widget.Toast;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.FragmentLoginBinding;
 import com.myproject.expensetacker.interfaces.NavigateInterface;
+import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
+import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 
 import java.util.Objects;
 
 
 public class LoginFragment extends Fragment {
+    private static final String TAG = "LoginFragment";
     private FragmentLoginBinding binding;
 
     private SignInInterface signInInterface;
@@ -96,7 +99,7 @@ public class LoginFragment extends Fragment {
     void loginAccount(String username, String password) {
         if (!checkInputs(username, password)) return;
         showProgress();
-        ExpenseAPI expenseAPIs = new ExpenseAPIImpl();
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
 
         expenseAPIs.loggedInAccount(username, account -> {
             hideProgress();
@@ -110,6 +113,7 @@ public class LoginFragment extends Fragment {
             }
         }, message -> {
             hideProgress();
+            PrintLog.errorLog(TAG, "Check user Exception: " + message);
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         });
     }
