@@ -1,10 +1,9 @@
 package com.myproject.expensetacker.adapter;
 
-
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,18 +42,35 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final MyExpenses myListData = expensesList.get(position);
+        final MyExpenses expenses = expensesList.get(position);
 
         ShowExpenseLayoutBinding layoutBinding = holder.binding;
-        layoutBinding.tvExpense.setText(myListData.toString());
 
-        layoutBinding.expenseLayout.setOnClickListener(view -> Toast.makeText(view.getContext(), "click on item: " + myListData.getId() + myListData.getExpenseName(), Toast.LENGTH_LONG).show());
+        if(expenses.getExpenseName().isEmpty()) layoutBinding.llExpenseLayout.setVisibility(View.GONE);
+        layoutBinding.tvExpense.setText(expenses.getExpenseName());
 
-        layoutBinding.imgDeleteExpense.setOnClickListener(view -> deleteExpense(myListData, position));
+        if(String.valueOf(expenses.getExpenseAmount()).isEmpty()) layoutBinding.llExpenseAmountLayout.setVisibility(View.GONE);
+        layoutBinding.tvExpenseAmount.setText(String.valueOf(expenses.getExpenseAmount()));
+
+        if(expenses.getDate().isEmpty()) layoutBinding.llExpenseDateLayout.setVisibility(View.GONE);
+        layoutBinding.tvExpenseDate.setText(expenses.getFormatedDate());
+
+        if(expenses.getExpenseType().isEmpty()) layoutBinding.llExpenseTypeLayout.setVisibility(View.GONE);
+        layoutBinding.tvExpenseType.setText(expenses.getExpenseType());
+
+        if(expenses.getTransactionType().isEmpty()) layoutBinding.llTransactionLayout.setVisibility(View.GONE);
+        layoutBinding.tvTransaction.setText(expenses.getTransactionType());
+
+        if(expenses.getTransactionType().equalsIgnoreCase("Credit")){
+            layoutBinding.imgEditExpense.setVisibility(View.GONE);
+            layoutBinding.imgDeleteExpense.setVisibility(View.GONE);
+        }
+
+        layoutBinding.imgDeleteExpense.setOnClickListener(view -> deleteExpense(expenses, position));
 
         layoutBinding.imgEditExpense.setOnClickListener(view -> {
             Intent i = new Intent(layoutBinding.getRoot().getContext(), AddExpensesActivity.class);
-            i.putExtra("EXPENSE_OBJECT", myListData);
+            i.putExtra("EXPENSE_OBJECT", expenses);
             layoutBinding.getRoot().getContext().startActivity(i);
         });
     }

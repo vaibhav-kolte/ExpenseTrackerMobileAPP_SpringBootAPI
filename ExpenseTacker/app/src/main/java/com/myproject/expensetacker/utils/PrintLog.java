@@ -8,16 +8,13 @@ public class PrintLog {
 
     public static void debugLog(String tag, String message) {
         Log.d(TAG, tag + " : " + message);
-//        WriteLog.getInstance().saveLog(tag + " " + message);
     }
 
     public static void infoLog(String tag, String message) {
         Log.i(TAG, tag + " : " + message);
-//        WriteLog.getInstance().saveLog(tag + " " + message);
     }
 
     public static void errorLog(String tag, String message) {
         Log.e(TAG, tag + " : " + message);
-//        WriteLog.getInstance().saveLog(tag + " " + message);
     }
 }

@@ -1,11 +1,9 @@
 package com.mycode.myExpenseTracker.controller;
 
 import com.mycode.myExpenseTracker.model.Expense;
-import com.mycode.myExpenseTracker.model.Transaction;
 import com.mycode.myExpenseTracker.model.ErrorResponse;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
-import com.mycode.myExpenseTracker.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +22,6 @@ public class ExpenseController {
 
     @Autowired
     private LoginAccountService loginAccountService;
-
-    @Autowired
-    private TransactionService transactionService;
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody Expense expense) {
@@ -79,13 +74,6 @@ public class ExpenseController {
     public ResponseEntity<Expense> delete(@PathVariable String username,
                                           @PathVariable int id) {
         if (expenseService.checkUsernameAndIdExists(username, id)) {
-            Expense expense = expenseService.get(id);
-            transactionService.save(new Transaction(
-                    expense.getUsername(),
-                    expense.getDate(),
-                    expense.getExpenseAmount(),
-                    "CREDIT"
-            ));
             expenseService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -99,32 +87,6 @@ public class ExpenseController {
                                     @PathVariable Integer id) {
         try {
             if (expenseService.checkUsernameAndIdExists(username, id)) {
-                Expense oldExpense = expenseService.get(id);
-                if (oldExpense.getExpenseAmount() > expense.getExpenseAmount()) {
-                    transactionService.save(new Transaction(
-                            expense.getUsername(),
-                            expense.getDate(),
-                            oldExpense.getExpenseAmount() - expense.getExpenseAmount(),
-                            "CREDIT"
-                    ));
-                }
-
-                if (oldExpense.getExpenseAmount() < expense.getExpenseAmount()) {
-                    double availableBalance = transactionService.getAvailableBalance(username);
-                    double expenseAmount = expense.getExpenseAmount() - oldExpense.getExpenseAmount();
-                    if (expenseAmount <= availableBalance) {
-                        transactionService.save(new Transaction(
-                                expense.getUsername(),
-                                expense.getDate(),
-                                expenseAmount,
-                                "DEBIT"
-                        ));
-                    } else {
-                        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                                "Insufficient balance in your account"), HttpStatus.BAD_REQUEST);
-                    }
-
-                }
                 expenseService.save(expense);
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {

@@ -72,6 +72,7 @@ public class AddExpensesActivity extends AppCompatActivity {
         binding.etAmount.setText(String.valueOf(myExpenses.getExpenseAmount()));
         updateExpenseType(myExpenses.getExpenseType());
         binding.btnSave.setVisibility(View.GONE);
+        binding.btnSaveNext.setVisibility(View.GONE);
         binding.btnUpdate.setVisibility(View.VISIBLE);
     }
 
@@ -99,38 +100,26 @@ public class AddExpensesActivity extends AppCompatActivity {
         });
 
         binding.btnSave.setOnClickListener(view -> {
-            if (Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty() ||
-                    Objects.requireNonNull(binding.etAmount.getText()).toString().isEmpty() ||
-                    Objects.requireNonNull(binding.etExpense.getText()).toString().isEmpty()
-            ) {
-                return;
+            try {
+                MyExpenses expenses = getMyExpenses();
+                addExpense(expenses);
+            } catch (Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            String tag = Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty()
-                    ? "Extra" : Objects.requireNonNull(binding.etTag.getText()).toString();
-            String date = Objects.requireNonNull(binding.etDate.getText()).toString();
-            double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
-            String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
-
-            MyExpenses expenses = new MyExpenses(username, expense, amount, date, tag,"DEBIT");
-            addExpense(expenses);
         });
 
         binding.btnUpdate.setOnClickListener(view -> {
-            if (Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty() ||
-                    Objects.requireNonNull(binding.etAmount.getText()).toString().isEmpty() ||
-                    Objects.requireNonNull(binding.etExpense.getText()).toString().isEmpty()
-            ) {
-                return;
+            try {
+                MyExpenses expense = getMyExpenses();
+                expense.setId(myExpenses.getId());
+                updateExpense(expense);
+            } catch (Exception e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            String tag = Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty()
-                    ? "Extra" : Objects.requireNonNull(binding.etTag.getText()).toString();
-            String date = Objects.requireNonNull(binding.etDate.getText()).toString();
-            double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
-            String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
+        });
 
-            MyExpenses expenses = new MyExpenses(myExpenses.getId(), username, expense, amount,
-                    date, tag,"DEBIT");
-            updateExpense(expenses);
+        binding.btnSaveNext.setOnClickListener(view -> {
+            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -166,7 +155,6 @@ public class AddExpensesActivity extends AppCompatActivity {
         binding.etAmount.setText("");
         binding.etTag.setText("");
         updateExpenseType("Select Tag");
-
     }
 
     private void updateExpenseType(String selectTag) {
@@ -181,5 +169,20 @@ public class AddExpensesActivity extends AppCompatActivity {
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(currentDate);
+    }
+
+    private MyExpenses getMyExpenses() throws Exception {
+        if (Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty() ||
+                Objects.requireNonNull(binding.etAmount.getText()).toString().isEmpty() ||
+                Objects.requireNonNull(binding.etExpense.getText()).toString().isEmpty()
+        ) {
+            throw new Exception("Filed should not empty!!!");
+        }
+        String tag = Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty()
+                ? "Extra" : Objects.requireNonNull(binding.etTag.getText()).toString();
+        String date = Objects.requireNonNull(binding.etDate.getText()).toString();
+        double amount = getFormatedAmount(Float.parseFloat(Objects.requireNonNull(binding.etAmount.getText()).toString()));
+        String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
+        return new MyExpenses(username, expense, amount, date, tag, "DEBIT");
     }
 }

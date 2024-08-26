@@ -5,7 +5,6 @@ import com.mycode.myExpenseTracker.model.ErrorResponse;
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
-import com.mycode.myExpenseTracker.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,6 @@ public class LoginAccountController {
 
     @Autowired
     private LoginAccountService loginAccountService;
-
-    @Autowired
-    private TransactionService transactionService;
 
     @Autowired
     private ExpenseService expenseService;
@@ -72,7 +68,6 @@ public class LoginAccountController {
 
     @DeleteMapping("/delete/{username}")
     public String deleteByUsername(@PathVariable String username) {
-        transactionService.deleteTransactionByUsername(username);
         expenseService.deleteExpensesByUsername(username);
         return loginAccountService.deleteByUsername(username);
     }

@@ -72,6 +72,10 @@ public class MyExpenses implements Serializable {
         return date;
     }
 
+    public String getFormatedDate() {
+        return Utils.formatDate(date);
+    }
+
     public void setDate(String date) {
         this.date = date;
     }

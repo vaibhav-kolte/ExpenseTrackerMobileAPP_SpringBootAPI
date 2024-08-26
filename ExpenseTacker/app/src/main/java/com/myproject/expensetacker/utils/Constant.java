@@ -5,5 +5,5 @@ public class Constant {
     public static final String[] expenseType = new String[]{"Select Tag", "My Self", "Home", "Bike", "Recharge",
             "Medical", "Travel", "Outside food", "Member"};
 
-    public static final String API_URL = "https://f071-103-88-101-207.ngrok-free.app";
+    public static final String API_URL = "https://1d88-103-88-101-207.ngrok-free.app";
 }
