@@ -1,10 +1,13 @@
 package com.mycode.myExpenseTracker.service;
 
+import com.mycode.myExpenseTracker.entities.ExpenseSummary;
 import com.mycode.myExpenseTracker.model.Expense;
 import com.mycode.myExpenseTracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,7 +17,7 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public Expense get(Integer id){
+    public Expense get(Integer id) {
         return expenseRepository.findById(id).get();
     }
 
@@ -25,7 +28,8 @@ public class ExpenseService {
     public List<Expense> getByUsername(String username) {
         return expenseRepository.findByUsername(username);
     }
-    public void delete(Integer id){
+
+    public void delete(Integer id) {
         expenseRepository.deleteById(id);
     }
 
@@ -39,5 +43,14 @@ public class ExpenseService {
 
     public double getAvailableBalance(String username) {
         return expenseRepository.getAvailableBalanceByUsername(username);
+    }
+
+    public ExpenseSummary findCurrentMonthSummeryByUsername(String username) {
+        return expenseRepository.findCurrentMonthSummeryByUsername(username);
+    }
+
+    // TODO Not working properly yet
+    public List<ExpenseSummary> getYearlySummaryByUsername(String username) {
+        return expenseRepository.findYearlySummaryByUsername(username);
     }
 }

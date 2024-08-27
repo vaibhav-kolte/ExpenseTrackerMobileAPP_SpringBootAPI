@@ -1,7 +1,10 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.entities.ExpenseSummary;
+import com.mycode.myExpenseTracker.exceptions.InsufficientBalanceException;
+import com.mycode.myExpenseTracker.exceptions.InternalServerException;
+import com.mycode.myExpenseTracker.exceptions.UserNotFound;
 import com.mycode.myExpenseTracker.model.Expense;
-import com.mycode.myExpenseTracker.model.ErrorResponse;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ public class ExpenseController {
     private LoginAccountService loginAccountService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Expense expense) {
+    public ResponseEntity<?> add(@RequestBody Expense expense) throws InsufficientBalanceException {
         try {
             if (expense.getUsername().isEmpty()
                     || String.valueOf(expense.getExpenseAmount()).isEmpty()
@@ -32,7 +35,7 @@ public class ExpenseController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             if (loginAccountService.existsByUsername(expense.getUsername())) {
-                if(expense.getTransactionType().equalsIgnoreCase("credit")){
+                if (expense.getTransactionType().equalsIgnoreCase("credit")) {
                     expenseService.save(expense);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
@@ -42,8 +45,7 @@ public class ExpenseController {
                     expenseService.save(expense);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
-                return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                        "Insufficient balance in your account"), HttpStatus.BAD_REQUEST);
+                throw new InsufficientBalanceException("Insufficient balance in your account");
 
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -98,31 +100,63 @@ public class ExpenseController {
     }
 
     @DeleteMapping("/delete-expense/{username}")
-    public ResponseEntity<?> deleteExpenseByUsername(@PathVariable String username) {
+    public ResponseEntity<?> deleteExpenseByUsername(@PathVariable String username) throws InternalServerException {
         try {
             expenseService.deleteExpensesByUsername(username);
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.OK.value(), "Expenses deleted successfully"), HttpStatus.OK);
+            return new ResponseEntity<>("Expenses deleted successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An error occurred: " + e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerException("An error occurred: " + e.getMessage());
         }
     }
 
 
     @GetMapping("/available-balance/{username}")
-    public ResponseEntity<?> getAvailableBalance(@PathVariable String username) {
+    public ResponseEntity<?> getAvailableBalance(@PathVariable String username) throws UserNotFound {
         try {
             if (loginAccountService.existsByUsername(username)) {
                 double availableBalance = expenseService.getAvailableBalance(username);
                 return new ResponseEntity<>(availableBalance, HttpStatus.OK);
             } else {
-                ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                        "User is not exits");
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+                throw new UserNotFound("User Not Found!");
             }
         } catch (Exception e) {
-            ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "An error occurred: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new UserNotFound("User Not Found!");
+        }
+    }
+
+    @GetMapping("/current-month/{username}")
+    public ResponseEntity<ExpenseSummary> findCurrentMonthSummeryByUsername(@PathVariable String username) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                ExpenseSummary expense = expenseService.findCurrentMonthSummeryByUsername(username);
+                return new ResponseEntity<>(expense, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer Exception: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NoSuchElementException e) {
+            System.out.println("Not found: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // TODO not working properly yet
+    @GetMapping("/yearly-expense-summary/{username}")
+    public ResponseEntity<?> getYearlyExpenseSummary(@PathVariable String username) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                List<ExpenseSummary> expense = expenseService.getYearlySummaryByUsername(username);
+                System.out.println("expense: " + expense);
+                return new ResponseEntity<>(expense, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer Exception: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NoSuchElementException e) {
+            System.out.println("Not found: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

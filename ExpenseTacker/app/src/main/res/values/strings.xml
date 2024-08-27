@@ -36,4 +36,10 @@
     <string name="tv_my_budget">My Budget</string>
     <string name="btn_add_balance">Add Balance</string>
     <string name="btn_add">Add</string>
+    <string name="yearly">Yearly</string>
+    <string name="monthly">Monthly</string>
+    <string name="expenses">Expenses</string>
+    <string name="income">Income</string>
+    <string name="cash_flow">Cash Flow</string>
+    <string name="current_balance">Current Balance</string>
 </resources>

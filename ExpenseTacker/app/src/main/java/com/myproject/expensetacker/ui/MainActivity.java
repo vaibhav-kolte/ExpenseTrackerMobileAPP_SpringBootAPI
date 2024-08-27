@@ -2,12 +2,17 @@ package com.myproject.expensetacker.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,11 +23,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.ActivityMainBinding;
 import com.myproject.expensetacker.databinding.NavHeaderMainBinding;
+import com.myproject.expensetacker.repository.Database;
+import com.myproject.expensetacker.repository.ExpenseAPI;
+import com.myproject.expensetacker.repository.ExpenseAPIImpl;
+import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
+import com.myproject.expensetacker.utils.Utils;
 
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Context context;
@@ -35,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-
 
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -55,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // My own code start here
         context = MainActivity.this;
         updateNavigationHeaderLayout(navigationView);
+        getMyAccount();
     }
 
 
@@ -92,9 +104,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNavigationHeaderLayout(NavigationView navigationView) {
+
         NavHeaderMainBinding headerBinding = NavHeaderMainBinding.bind(navigationView.getHeaderView(0));
         ShareData shareData = new ShareData(context);
         headerBinding.tvUsername.setText(shareData.getString(ShareData.USERNAME, ""));
+
+
+        ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null && data.getExtras() != null) {
+                            Bitmap img = (Bitmap) data.getExtras().get("data");
+                            if (img != null) {
+                                PrintLog.infoLog("IMAGE", img.toString());
+                                headerBinding.imgProfile.setImageBitmap(img);
+                                uploadProfilePhoto(img);
+                            }
+                        }
+                    }
+                }
+        );
+
+        headerBinding.imgProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraLauncher.launch(intent);
+        });
     }
 
+    private void uploadProfilePhoto(Bitmap bitmap) {
+
+        ShareData shareData = new ShareData(getApplication().getApplicationContext());
+        String username = shareData.getString(ShareData.USERNAME, "");
+        File file = Utils.bitmapToFile(context, bitmap, username);
+
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        expenseAPIs.uploadProfilePhoto(username, file, () -> {
+            Toast.makeText(context, "Image uploaded successfully",
+                    Toast.LENGTH_SHORT).show();
+        }, message -> {
+
+        });
+    }
+
+    private void getMyAccount() {
+        ShareData shareData = new ShareData(getApplication().getApplicationContext());
+        String username = shareData.getString(ShareData.USERNAME, "");
+
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        expenseAPIs.getMyAccount(username, account -> {
+            System.out.println("Account: " + account);
+        }, message -> {
+
+        });
+    }
 }

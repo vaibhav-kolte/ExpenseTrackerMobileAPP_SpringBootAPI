@@ -5,40 +5,40 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.ActivityLoginBinding;
 import com.myproject.expensetacker.interfaces.NavigateInterface;
+import com.myproject.expensetacker.ui.fragments.LoginFragment;
+import com.myproject.expensetacker.ui.fragments.SignInFragment;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.SignInInterface,
         SignInFragment.LoginInterface,
         NavigateInterface {
-    private static final String TAG = "LoginActivity";
-
-    private ActivityLoginBinding binding;
 
     private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         context = LoginActivity.this;
 
-        updateLoginFragment();
+        updateFragment(new LoginFragment());
     }
 
     @Override
     public void onSignIn() {
-        updateSignInFragment();
+        updateFragment(new SignInFragment());
     }
 
     @Override
     public void onLogin() {
-        updateLoginFragment();
+        updateFragment(new LoginFragment());
     }
 
     @Override
@@ -47,17 +47,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Si
         finish();
     }
 
-    private void updateLoginFragment() {
+    private void updateFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment, new LoginFragment())
+                .replace(R.id.fragment, fragment)
                 .commit();
     }
 
-    private void updateSignInFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment, new SignInFragment())
-                .commit();
-    }
 }

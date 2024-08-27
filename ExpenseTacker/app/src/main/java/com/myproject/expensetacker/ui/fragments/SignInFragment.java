@@ -1,4 +1,4 @@
-package com.myproject.expensetacker.ui;
+package com.myproject.expensetacker.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -126,7 +126,7 @@ public class SignInFragment extends Fragment {
 
     private void signInAccount(String username, String password, String confirmPassword) {
         if (!checkInputs(username, password, confirmPassword)) return;
-        Account account = new Account(username, password);
+        Account account = new Account(username, password,"");
         showProgress();
         ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
         expenseAPIs.signInAccount(account, () -> {
@@ -162,7 +162,7 @@ public class SignInFragment extends Fragment {
         return allInputIsValid;
     }
 
-    interface LoginInterface {
+    public interface LoginInterface {
         void onLogin();
     }
 }

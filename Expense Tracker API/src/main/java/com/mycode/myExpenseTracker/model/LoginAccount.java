@@ -16,6 +16,8 @@ public class LoginAccount {
     private String username;
     @Column(nullable = false)
     private String myPassword;
+    @Column
+    private String imageUrl;
 
     public LoginAccount() {
     }
@@ -25,6 +27,7 @@ public class LoginAccount {
         return "LoginAccount{" +
                 "username='" + username + '\'' +
                 ", myPassword='" + myPassword + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

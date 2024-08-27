@@ -8,10 +8,12 @@ public class Account {
 
     private final String username;
     private final String myPassword;
+    private final String imageUrl;
 
-    public Account(String username, String myPassword) {
+    public Account(String username, String myPassword, String imageUrl) {
         this.username = username;
         this.myPassword = myPassword;
+        this.imageUrl = imageUrl;
     }
 
     public String getUsername() {
@@ -22,11 +24,17 @@ public class Account {
         return myPassword;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "Account{" + "username='" + username + '\'' +
+        return "Account{" +
+                "username='" + username + '\'' +
                 ", myPassword='" + myPassword + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }

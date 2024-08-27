@@ -54,7 +54,7 @@ public class LoginAccountService {
         return loginAccountRepository.existsByUsername(username);// ? 1 : 0;
     }
 
-    public boolean existUser(String username,String password) {
+    public boolean existUser(String username, String password) {
         return loginAccountRepository.existUser(username, password);// ? 1 : 0;
     }
 

@@ -1,11 +1,15 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.exceptions.InvalidInputException;
+import com.mycode.myExpenseTracker.exceptions.UserAlreadyExistException;
 import com.mycode.myExpenseTracker.exceptions.UserNotFound;
-import com.mycode.myExpenseTracker.model.ErrorResponse;
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
+import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +33,12 @@ public class LoginAccountController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody LoginAccount loginAccount) {
+    public ResponseEntity<?> add(@RequestBody LoginAccount loginAccount) throws InvalidInputException, UserAlreadyExistException {
         if (loginAccount.getUsername().isEmpty() || loginAccount.getMyPassword().isEmpty()) {
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                    "Username and password should not empty"), HttpStatus.BAD_REQUEST);
+            throw new InvalidInputException("Username and password should not empty");
         }
         if (loginAccountService.existsByUsername(loginAccount.getUsername())) {
-            return new ResponseEntity<>(new ErrorResponse(HttpStatus.CONFLICT.value(),
-                    "This username already exits"), HttpStatus.CONFLICT);
+            throw new UserAlreadyExistException("This username already exits");
         }
         loginAccountService.save(loginAccount);
         return new ResponseEntity<>(loginAccount, HttpStatus.OK);
@@ -87,6 +89,18 @@ public class LoginAccountController {
             }
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{imageName}")
+    public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
+        try {
+            Resource resource = new ClassPathResource("profile_imgs/" + imageName);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

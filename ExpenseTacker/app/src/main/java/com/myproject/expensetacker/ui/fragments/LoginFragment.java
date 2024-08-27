@@ -1,4 +1,4 @@
-package com.myproject.expensetacker.ui;
+package com.myproject.expensetacker.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -141,7 +141,7 @@ public class LoginFragment extends Fragment {
         return allInputIsValid;
     }
 
-    interface SignInInterface {
+    public interface SignInInterface {
         void onSignIn();
     }
 }
