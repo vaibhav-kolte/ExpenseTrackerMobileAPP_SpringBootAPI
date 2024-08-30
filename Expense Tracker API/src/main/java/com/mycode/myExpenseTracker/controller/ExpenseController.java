@@ -1,6 +1,7 @@
 package com.mycode.myExpenseTracker.controller;
 
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
+import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.exceptions.InsufficientBalanceException;
 import com.mycode.myExpenseTracker.exceptions.InternalServerException;
 import com.mycode.myExpenseTracker.exceptions.UserNotFound;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static com.mycode.myExpenseTracker.utils.Util.getLocalDateTime;
 
 
 @RestController
@@ -141,14 +144,34 @@ public class ExpenseController {
         }
     }
 
-    // TODO not working properly yet
-    @GetMapping("/yearly-expense-summary/{username}")
-    public ResponseEntity<?> getYearlyExpenseSummary(@PathVariable String username) {
+    @GetMapping("/monthly-group_type/{username}")
+    public ResponseEntity<?> findMonthlyExpenseByType(@PathVariable String username) {
         try {
             if (loginAccountService.existsByUsername(username)) {
-                List<ExpenseSummary> expense = expenseService.getYearlySummaryByUsername(username);
-                System.out.println("expense: " + expense);
-                return new ResponseEntity<>(expense, HttpStatus.OK);
+                List<ExpenseTypeSummery> expenseTypeSummeryList
+                        = expenseService.findMonthlyExpenseByType(username);
+                return new ResponseEntity<>(expenseTypeSummeryList, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException e) {
+            System.out.println("Null Pointer Exception: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NoSuchElementException e) {
+            System.out.println("Not found: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/yearly-group_type/{username}/{startDate}/{endDate}")
+    public ResponseEntity<?> getYearlyExpenseByType(@PathVariable String username,
+                                                    @PathVariable String startDate,
+                                                    @PathVariable String endDate) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                List<ExpenseTypeSummery> expenseTypeSummeryList
+                        = expenseService.findExpenseByType(username,
+                        getLocalDateTime(startDate), getLocalDateTime(endDate));
+                return new ResponseEntity<>(expenseTypeSummeryList, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NullPointerException e) {

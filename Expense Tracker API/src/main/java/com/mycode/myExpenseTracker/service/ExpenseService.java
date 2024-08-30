@@ -1,13 +1,15 @@
 package com.mycode.myExpenseTracker.service;
 
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
+import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.model.Expense;
 import com.mycode.myExpenseTracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -49,8 +51,19 @@ public class ExpenseService {
         return expenseRepository.findCurrentMonthSummeryByUsername(username);
     }
 
-    // TODO Not working properly yet
-    public List<ExpenseSummary> getYearlySummaryByUsername(String username) {
-        return expenseRepository.findYearlySummaryByUsername(username);
+    public List<ExpenseTypeSummery> findMonthlyExpenseByType(String username) {
+        return expenseRepository.findMonthlyExpenseByType(username);
     }
+
+//    public List<ExpenseTypeSummery> findYearlyExpenseByType(String username) {
+//        return expenseRepository.findYearlyExpenseByType(username, getLocalDateTime("2024-04-01"),
+//                getLocalDateTime("2025-04-01"));
+//    }
+
+    public List<ExpenseTypeSummery> findExpenseByType(String username, LocalDateTime startDate,
+                                                      LocalDateTime endDate) {
+        return expenseRepository.findExpenseByType(username,
+                startDate, endDate);
+    }
+
 }

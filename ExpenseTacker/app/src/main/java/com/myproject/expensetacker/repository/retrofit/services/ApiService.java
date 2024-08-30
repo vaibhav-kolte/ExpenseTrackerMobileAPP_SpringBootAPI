@@ -2,12 +2,12 @@ package com.myproject.expensetacker.repository.retrofit.services;
 
 import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.ExpenseSummary;
+import com.myproject.expensetacker.model.TypeSummery;
 import com.myproject.expensetacker.model.MyExpenses;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -48,4 +48,16 @@ public interface ApiService {
 
     @GET("/expense/current-month/{username}")
     Call<ExpenseSummary> getExpenseSummeryInCurrentMonth(@Path("username") String username);
+
+    @Multipart
+    @PUT("/login/{username}")
+    Call<ResponseBody> uploadImage(@Path("username") String username, @Part MultipartBody.Part part);
+
+    @GET("/login/{filename}")
+    Call<ResponseBody> downloadProfilePhoto(@Path("filename") String filename);
+
+    @GET("/expense/yearly-group_type/{username}/{startDate}/{endDate}")
+    Call<List<TypeSummery>> getYearlyExpenseByType(@Path("username") String username,
+                                                   @Path("startDate") String startDate,
+                                                   @Path("endDate") String endDate);
 }

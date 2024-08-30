@@ -2,13 +2,17 @@ package com.mycode.myExpenseTracker.service;
 
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.repository.LoginAccountRepository;
+import com.mycode.myExpenseTracker.utils.ImageUtils;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LoginAccountService {
@@ -56,6 +60,22 @@ public class LoginAccountService {
 
     public boolean existUser(String username, String password) {
         return loginAccountRepository.existUser(username, password);// ? 1 : 0;
+    }
+
+    public String uploadImage(String username, String password, MultipartFile file) throws IOException {
+
+        loginAccountRepository.save(LoginAccount.builder()
+                .username(username)
+                .myPassword(password)
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+        return "file uploaded successfully : " + file.getOriginalFilename();
+    }
+
+    public byte[] downloadImage(String fileName) {
+        Optional<LoginAccount> dbImageData = loginAccountRepository.findByName(fileName);
+        return ImageUtils.decompressImage(dbImageData.get().getImageData());
     }
 
 }

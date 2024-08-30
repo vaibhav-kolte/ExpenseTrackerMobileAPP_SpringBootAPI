@@ -32,12 +32,16 @@ import com.myproject.expensetacker.utils.Utils;
 
 import java.io.File;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Context context;
+    private CircleImageView profilePhoto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         context = MainActivity.this;
         updateNavigationHeaderLayout(navigationView);
         getMyAccount();
+        downloadProfilePhoto();
     }
 
 
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
+        profilePhoto = headerBinding.imgProfile;
         headerBinding.imgProfile.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraLauncher.launch(intent);
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(context, "Image uploaded successfully",
                     Toast.LENGTH_SHORT).show();
         }, message -> {
-
+            PrintLog.errorLog(TAG, "Exception: " + message);
         });
     }
 
@@ -156,7 +161,19 @@ public class MainActivity extends AppCompatActivity {
         expenseAPIs.getMyAccount(username, account -> {
             System.out.println("Account: " + account);
         }, message -> {
-
+            System.out.println("Getting login account Exception: " + message);
         });
+    }
+
+    private void downloadProfilePhoto() {
+        ShareData shareData = new ShareData(getApplication().getApplicationContext());
+        String username = shareData.getString(ShareData.USERNAME, "");
+
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        expenseAPIs.downloadImage(username + ".jpg", bitmap -> {
+            if (profilePhoto != null) {
+                profilePhoto.setImageBitmap(bitmap);
+            }
+        }, message -> PrintLog.errorLog(TAG, message));
     }
 }

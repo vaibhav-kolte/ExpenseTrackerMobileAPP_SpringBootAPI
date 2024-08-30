@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.repository.retrofit;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import com.myproject.expensetacker.interfaces.apis.APIException;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
 import com.myproject.expensetacker.interfaces.apis.DeleteExpense;
+import com.myproject.expensetacker.interfaces.apis.DownloadProfilePhoto;
 import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.ExpenseSummeryResponse;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
@@ -16,9 +19,11 @@ import com.myproject.expensetacker.interfaces.apis.MyLogin;
 import com.myproject.expensetacker.interfaces.apis.ProfilePhotoAdded;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.UpdateExpense;
+import com.myproject.expensetacker.interfaces.apis.TypeSummeryByDuration;
 import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.ApiError;
 import com.myproject.expensetacker.model.ExpenseSummary;
+import com.myproject.expensetacker.model.TypeSummery;
 import com.myproject.expensetacker.model.MyExpenses;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.retrofit.client.RetrofitClient;
@@ -51,10 +56,10 @@ public class RetrofitManager implements ExpenseAPI {
         if (file.exists() && file.length() > 0) {
             RequestBody requestFile = RequestBody.create(file, MediaType.parse("image/jpeg"));
 
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
             ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-            Call<ResponseBody> call = apiService.uploadProfilePhoto(username, body);
+            Call<ResponseBody> call = apiService.uploadImage(username, body);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseBody> call,
@@ -287,12 +292,14 @@ public class RetrofitManager implements ExpenseAPI {
                 Log.e(TAG, "onResponse: Login " + response);
                 if (response.isSuccessful()) {
                     Account login = response.body();
+                    Log.d(TAG, "onResponse: " + login);
                     if (login != null) {
                         myLogin.getMyLogin(login);
                     } else {
                         exception.apiCalledFailed("Login response is null");
                     }
                 } else {
+                    Log.d(TAG, "onResponse: Error");
                     try {
                         Gson gson = new Gson();
                         assert response.errorBody() != null;
@@ -345,6 +352,64 @@ public class RetrofitManager implements ExpenseAPI {
             public void onFailure(@NonNull Call<ExpenseSummary> call,
                                   @NonNull Throwable t) {
                 exception.apiCalledFailed(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void downloadImage(String filename, DownloadProfilePhoto profilePhoto, APIException exception) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<ResponseBody> call = apiService.downloadProfilePhoto(filename);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                Log.e(TAG, "onResponse: Login " + response);
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+                        profilePhoto.myImage(bmp);
+                    } else {
+                        exception.apiCalledFailed("Something went wrong.");
+                    }
+                } else {
+                    exception.apiCalledFailed("Failed to get profile photo.");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
+                exception.apiCalledFailed("Failed to get profile photo. Exception: " + t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getExpenseByTypeAndDuration(String username, String startDate, String endDate, TypeSummeryByDuration typeSummery, APIException exception) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<List<TypeSummery>> call = apiService.getYearlyExpenseByType(username, startDate, endDate);
+        call.enqueue(new Callback<List<TypeSummery>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<TypeSummery>> call,
+                                   @NonNull Response<List<TypeSummery>> response) {
+                Log.e(TAG, "onResponse: Login " + response);
+                if (response.isSuccessful()) {
+                    List<TypeSummery> typeSummeryList = response.body();
+                    if (typeSummeryList != null) {
+                        typeSummery.typeSummery(typeSummeryList);
+                    } else {
+                        exception.apiCalledFailed("Failed to get yearly type summery");
+                    }
+                } else {
+                    exception.apiCalledFailed("Failed to get yearly type summery. Status code is " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<TypeSummery>> call,
+                                  @NonNull Throwable t) {
+                exception.apiCalledFailed("Failed to get yearly type summery. Exception: " + t.getMessage());
             }
         });
     }

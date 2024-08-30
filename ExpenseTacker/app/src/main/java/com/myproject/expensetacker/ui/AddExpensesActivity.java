@@ -21,6 +21,7 @@ import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.Constant;
+import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 import com.myproject.expensetacker.utils.Utils;
 
@@ -133,8 +134,9 @@ public class AddExpensesActivity extends AppCompatActivity {
         expenseAPIs.addExpense(expenses, () -> {
             Toast.makeText(context, "Expense Added successfully.", Toast.LENGTH_SHORT).show();
             finish();
+            PrintLog.infoLog(TAG, expenses.getExpenseName() + " expense added successfully");
         }, message -> {
-
+            PrintLog.errorLog(TAG, expenses.getExpenseName() + " failed to add expense.");
         });
     }
 
@@ -185,4 +187,6 @@ public class AddExpensesActivity extends AppCompatActivity {
         String expense = Objects.requireNonNull(binding.etExpense.getText()).toString();
         return new MyExpenses(username, expense, amount, date, tag, "DEBIT");
     }
+
+
 }

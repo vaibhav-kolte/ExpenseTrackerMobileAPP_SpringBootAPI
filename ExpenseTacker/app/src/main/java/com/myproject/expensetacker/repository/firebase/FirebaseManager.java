@@ -4,6 +4,7 @@ import com.myproject.expensetacker.interfaces.apis.APIException;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
 import com.myproject.expensetacker.interfaces.apis.DeleteExpense;
+import com.myproject.expensetacker.interfaces.apis.DownloadProfilePhoto;
 import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.ExpenseSummeryResponse;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
@@ -11,8 +12,8 @@ import com.myproject.expensetacker.interfaces.apis.MyLogin;
 import com.myproject.expensetacker.interfaces.apis.ProfilePhotoAdded;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.UpdateExpense;
+import com.myproject.expensetacker.interfaces.apis.TypeSummeryByDuration;
 import com.myproject.expensetacker.model.Account;
-import com.myproject.expensetacker.model.ExpenseSummary;
 import com.myproject.expensetacker.model.MyExpenses;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 
@@ -20,7 +21,7 @@ import java.io.File;
 
 public class FirebaseManager implements ExpenseAPI {
     @Override
-    public void uploadProfilePhoto(String username,File image, ProfilePhotoAdded profilePhotoAdded, APIException exception) {
+    public void uploadProfilePhoto(String username, File image, ProfilePhotoAdded profilePhotoAdded, APIException exception) {
 
     }
 
@@ -68,6 +69,16 @@ public class FirebaseManager implements ExpenseAPI {
 
     @Override
     public void getExpenseSummeryInCurrentMonth(String username, ExpenseSummeryResponse expenseSummary, APIException exception) {
+
+    }
+
+    @Override
+    public void downloadImage(String filename, DownloadProfilePhoto profilePhoto, APIException exception) {
+
+    }
+
+    @Override
+    public void getExpenseByTypeAndDuration(String username, String startDate, String endDate, TypeSummeryByDuration typeSummery, APIException exception) {
 
     }
 }

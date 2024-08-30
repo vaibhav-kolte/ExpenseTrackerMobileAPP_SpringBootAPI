@@ -7,8 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 public class Utils {
     private static final String TAG = "Utils";
@@ -37,5 +40,35 @@ public class Utils {
             PrintLog.errorLog(TAG, "File creation failed");
             return null;
         }
+    }
+
+    public static LocalDate nextCurrentMonthDate() {
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.with(TemporalAdjusters.firstDayOfNextMonth());
+    }
+
+    public static LocalDate startCurrentMonthDate() {
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+
+    public static LocalDate startFinancialYearDate() {
+        LocalDate currentDate = LocalDate.now();
+
+        Month financialYearStartMonth = Month.APRIL;
+        int financialYearStartDay = 1;
+
+        LocalDate startOfCurrentFinancialYear;
+        if (currentDate.isBefore(LocalDate.of(currentDate.getYear(), financialYearStartMonth, financialYearStartDay))) {
+            startOfCurrentFinancialYear = LocalDate.of(currentDate.getYear() - 1, financialYearStartMonth, financialYearStartDay);
+        } else {
+            startOfCurrentFinancialYear = LocalDate.of(currentDate.getYear(), financialYearStartMonth, financialYearStartDay);
+        }
+        return startOfCurrentFinancialYear;
+    }
+
+    public static LocalDate nextFinancialYearDate() {
+        return startFinancialYearDate().plusYears(1);
     }
 }

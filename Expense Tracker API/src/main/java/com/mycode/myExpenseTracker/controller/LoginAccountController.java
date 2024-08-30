@@ -1,19 +1,20 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.exceptions.InvalidFileException;
 import com.mycode.myExpenseTracker.exceptions.InvalidInputException;
 import com.mycode.myExpenseTracker.exceptions.UserAlreadyExistException;
 import com.mycode.myExpenseTracker.exceptions.UserNotFound;
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
-import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -92,15 +93,27 @@ public class LoginAccountController {
         }
     }
 
-    @GetMapping("/{imageName}")
-    public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
-        try {
-            Resource resource = new ClassPathResource("profile_imgs/" + imageName);
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                    .body(resource);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @PutMapping({"/{username}"})
+    public ResponseEntity<?> uploadImage(@PathVariable String username,
+                                         @RequestParam("image") MultipartFile file) throws IOException, InvalidFileException {
+        if (file == null) {
+            throw new InvalidFileException("Image file should not be null.");
         }
+        LoginAccount loginAccount = loginAccountService.getByUsername(username);
+
+        String uploadImage = loginAccountService.uploadImage(loginAccount.getUsername(),
+                loginAccount.getMyPassword(),
+                file);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(uploadImage);
+    }
+
+    @GetMapping("/{fileName}")
+    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
+        byte[] imageData=loginAccountService.downloadImage(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+
     }
 }

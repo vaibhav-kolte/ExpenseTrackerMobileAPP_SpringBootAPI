@@ -36,6 +36,15 @@ public class MyExpenses implements Serializable {
         this.transactionType = transactionType;
     }
 
+    public MyExpenses(String date, double expenseAmount, String expenseName, String expenseType, String transactionType, String username) {
+        this.date = date;
+        this.expenseAmount = expenseAmount;
+        this.expenseName = expenseName;
+        this.expenseType = expenseType;
+        this.transactionType = transactionType;
+        this.username = username;
+    }
+
     public long getId() {
         return id;
     }
@@ -102,7 +111,7 @@ public class MyExpenses implements Serializable {
         return "username='" + username + '\'' +
                 "\nexpenseName='" + expenseName + '\'' +
                 "\nexpenseAmount=" + expenseAmount +
-                "\ndate='" + Utils.formatDate(date) + '\'' +
+                "\ndate='" + date + '\'' +
                 "\nexpenseType='" + expenseType + '\'' +
                 "\ntransactionType='" + transactionType + '\'';
     }

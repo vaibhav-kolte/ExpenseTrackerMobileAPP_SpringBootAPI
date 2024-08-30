@@ -1,12 +1,14 @@
 package com.mycode.myExpenseTracker.repository;
 
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
+import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.model.Expense;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
@@ -31,13 +33,23 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
             "FROM Expense e WHERE e.username = :username AND MONTH(e.date) = MONTH(CURRENT_DATE) AND YEAR(e.date) = YEAR(CURRENT_DATE)")
     ExpenseSummary findCurrentMonthSummeryByUsername(@Param("username") String username);
 
-    // TODO not working properly yet
-    @Query("SELECT " +
-            "SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END) AS totalDebit, " +
-            "SUM(CASE WHEN e.transactionType = 'CREDIT' THEN e.expenseAmount ELSE 0 END) AS totalCredit, " +
-            "CONCAT(FUNCTION('MONTHNAME', e.date), ' ', YEAR(e.date)) AS monthYear " +
-            "FROM Expense e WHERE e.username = :username AND YEAR(e.date) = YEAR(CURRENT_DATE) " +
-            "GROUP BY YEAR(e.date), MONTH(e.date) " +
-            "ORDER BY YEAR(e.date), MONTH(e.date)")
-    List<ExpenseSummary> findYearlySummaryByUsername(@Param("username") String username);
+    @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
+            "SUM(e.expenseAmount)) FROM Expense e " +
+            "WHERE e.username = :username GROUP BY e.expenseType")
+    List<ExpenseTypeSummery> findMonthlyExpenseByType(@Param("username") String username);
+
+
+    @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
+            "SUM(e.expenseAmount)) FROM Expense e WHERE e.username = :username " +
+            "AND e.date BETWEEN :startDate AND :endDate " +
+            "GROUP BY e.expenseType")
+    List<ExpenseTypeSummery> findYearlyExpenseByType(@Param("username") String username,
+                                                    LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
+            "SUM(e.expenseAmount)) FROM Expense e WHERE e.username = :username " +
+            "AND e.date BETWEEN :startDate AND :endDate " +
+            "GROUP BY e.expenseType")
+    List<ExpenseTypeSummery> findExpenseByType(@Param("username") String username,
+                                                     LocalDateTime startDate, LocalDateTime endDate);
 }
