@@ -232,17 +232,352 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/category_fragment"
+            <!--            <androidx.fragment.app.FragmentContainerView-->
+            <!--                android:id="@+id/category_fragment"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="16dp"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.0"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.5"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/my_self_cl"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/my_self_imageview"-->
+<!--                        android:layout_width="48dp"-->
+<!--                        android:layout_height="48dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/icon_my_self"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/my_self_text_percentage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="80%"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/my_self_seekbar"-->
+<!--                        app:layout_constraintEnd_toEndOf="@+id/my_self_seekbar"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--                    <SeekBar-->
+<!--                        android:id="@+id/my_self_seekbar"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:enabled="false"-->
+<!--                        android:progress="80"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/my_self_amount"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/my_self_imageview"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/my_self_text_percentage" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/my_self_name"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="TextView"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/my_self_seekbar"-->
+<!--                        app:layout_constraintStart_toStartOf="@+id/my_self_seekbar" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/my_self_amount"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:text="700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/home_cl"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/home_imageview"-->
+<!--                        android:layout_width="48dp"-->
+<!--                        android:layout_height="48dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/icon_home"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/home_percentage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="80%"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/home_seekbar"-->
+<!--                        app:layout_constraintEnd_toEndOf="@+id/home_seekbar"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--                    <SeekBar-->
+<!--                        android:id="@+id/home_seekbar"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:enabled="false"-->
+<!--                        android:progress="80"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/home_amount"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/home_imageview"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/home_percentage" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/home_name"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="TextView"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/home_seekbar"-->
+<!--                        app:layout_constraintStart_toStartOf="@+id/home_seekbar" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/home_amount"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:text="700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent">-->
+
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/member_cl"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/member_imageview"-->
+<!--                        android:layout_width="48dp"-->
+<!--                        android:layout_height="48dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/icon_member"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/member_text_percentage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="80%"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/member_seekbar"-->
+<!--                        app:layout_constraintEnd_toEndOf="@+id/member_seekbar"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--                    <SeekBar-->
+<!--                        android:id="@+id/member_seekbar"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:enabled="false"-->
+<!--                        android:progress="80"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/member_amount"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/member_imageview"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/member_text_percentage" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/member_name"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="TextView"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/member_seekbar"-->
+<!--                        app:layout_constraintStart_toStartOf="@+id/member_seekbar" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/member_amount"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:text="700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent">-->
+
+
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/medical_cl"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.0"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/medical_imageview"-->
+<!--                        android:layout_width="48dp"-->
+<!--                        android:layout_height="48dp"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="8dp"-->
+<!--                        android:padding="8dp"-->
+<!--                        android:src="@drawable/icon_medical"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/medical_text_percentage"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="80%"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/medical_seekbar"-->
+<!--                        app:layout_constraintEnd_toEndOf="@+id/medical_seekbar"-->
+<!--                        app:layout_constraintTop_toTopOf="parent"-->
+<!--                        app:layout_constraintVertical_chainStyle="packed" />-->
+
+<!--                    <SeekBar-->
+<!--                        android:id="@+id/medical_seekbar"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:enabled="false"-->
+<!--                        android:progress="80"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toStartOf="@+id/medical_amount"-->
+<!--                        app:layout_constraintHorizontal_bias="0.5"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/medical_imageview"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/medical_text_percentage" />-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/medical_name"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="TextView"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        app:layout_constraintBottom_toTopOf="@+id/medical_seekbar"-->
+<!--                        app:layout_constraintStart_toStartOf="@+id/medical_seekbar" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/medical_amount"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="16dp"-->
+<!--                        android:text="700"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="18sp"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--            </LinearLayout>-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/type_summery_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="8dp"
+                tools:listitem="@layout/expense_type_layout"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

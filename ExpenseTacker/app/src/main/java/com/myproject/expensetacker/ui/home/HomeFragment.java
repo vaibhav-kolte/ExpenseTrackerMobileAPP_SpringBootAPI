@@ -1,5 +1,10 @@
 package com.myproject.expensetacker.ui.home;
 
+import static com.myproject.expensetacker.utils.Utils.nextCurrentMonthDate;
+import static com.myproject.expensetacker.utils.Utils.nextFinancialYearDate;
+import static com.myproject.expensetacker.utils.Utils.startCurrentMonthDate;
+import static com.myproject.expensetacker.utils.Utils.startFinancialYearDate;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,25 +16,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.myproject.expensetacker.R;
+import com.myproject.expensetacker.adapter.ExpenseTypeAdapter;
 import com.myproject.expensetacker.databinding.FragmentHomeBinding;
 import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
 import com.myproject.expensetacker.ui.AddExpensesActivity;
-import com.myproject.expensetacker.ui.fragments.MonthlyFragment;
-import com.myproject.expensetacker.ui.fragments.YearlyFragment;
+import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class HomeFragment extends Fragment {
-
+    private static final String TAG = "HomeFragment";
     private FragmentHomeBinding binding;
     private Context context;
     private HomeViewModel homeViewModel;
@@ -66,32 +71,35 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        binding.fab.setOnClickListener(view -> {
-            startActivity(new Intent(context, AddExpensesActivity.class));
-        });
+        binding.fab.setOnClickListener(view -> startActivity(new Intent(context, AddExpensesActivity.class)));
 
         binding.tvMonthly.setOnClickListener(view -> {
-            updateViewAppearance(binding.tvMonthly, binding.tvYearly, new MonthlyFragment());
+            updateViewAppearance(binding.tvMonthly, binding.tvYearly,
+                    startCurrentMonthDate().toString(),
+                    nextCurrentMonthDate().toString());
         });
 
         binding.tvYearly.setOnClickListener(view -> {
-            updateViewAppearance(binding.tvYearly, binding.tvMonthly, new YearlyFragment());
+            updateViewAppearance(binding.tvYearly, binding.tvMonthly,
+                    startFinancialYearDate().toString(),
+                    nextFinancialYearDate().toString());
         });
     }
 
-    private void updateViewAppearance(TextView selectedTextView, TextView unselectedTextView, Fragment newFragment) {
-        selectedTextView.setBackgroundResource(R.drawable.textview_rounded_background);
-        selectedTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
+    private void getTypeSummery(String startDate, String endDate) {
+        ShareData shareData = new ShareData(requireContext().getApplicationContext());
+        String username = shareData.getString(ShareData.USERNAME, "");
 
-        unselectedTextView.setBackgroundResource(0);
-        unselectedTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
 
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.category_fragment, newFragment)
-                .commit();
+        expenseAPIs.getExpenseByTypeAndDuration(username, startDate,
+                endDate, typeSummeryList -> {
+                    ExpenseTypeAdapter adapter = new ExpenseTypeAdapter(typeSummeryList);
+                    binding.typeSummeryRecycler.setHasFixedSize(true);
+                    binding.typeSummeryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+                    binding.typeSummeryRecycler.setAdapter(adapter);
+                }, message -> PrintLog.errorLog(TAG, message));
     }
-
     private void getCurrentMonthSummery() {
         ShareData shareData = new ShareData(context.getApplicationContext());
         String username = shareData.getString(ShareData.USERNAME, "");
@@ -107,12 +115,23 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void updateViewAppearance(TextView selectedTextView, TextView unselectedTextView,
+                                      String startDate, String endDate) {
+        selectedTextView.setBackgroundResource(R.drawable.textview_rounded_background);
+        selectedTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
+
+        unselectedTextView.setBackgroundResource(0);
+        unselectedTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
+        getTypeSummery(startDate, endDate);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         homeViewModel.getMyBudgetUsingAPI();
         getCurrentMonthSummery();
-        updateViewAppearance(binding.tvMonthly, binding.tvYearly, new MonthlyFragment());
+        updateViewAppearance(binding.tvMonthly, binding.tvYearly, startCurrentMonthDate().toString(),
+                nextCurrentMonthDate().toString());
     }
 
     @Override

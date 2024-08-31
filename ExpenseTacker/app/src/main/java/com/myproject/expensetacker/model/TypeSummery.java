@@ -5,10 +5,17 @@ import androidx.annotation.NonNull;
 public class TypeSummery {
     private String expenseType;
     private Double totalAmount;
+    private int icon;
 
     public TypeSummery(String expenseType, Double totalAmount) {
         this.expenseType = expenseType;
         this.totalAmount = totalAmount;
+    }
+
+    public TypeSummery(String expenseType, Double totalAmount, int icon) {
+        this.expenseType = expenseType;
+        this.totalAmount = totalAmount;
+        this.icon = icon;
     }
 
     public String getExpenseType() {
@@ -25,6 +32,14 @@ public class TypeSummery {
 
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
     @NonNull
