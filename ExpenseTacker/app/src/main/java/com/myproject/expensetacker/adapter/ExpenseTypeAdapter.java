@@ -26,7 +26,6 @@ public class ExpenseTypeAdapter extends RecyclerView.Adapter<ExpenseTypeAdapter.
         List<TypeSummery> summeries = new ArrayList<>();
 
         for (TypeSummery summery : typeSummeryList) {
-            if (summery.getExpenseType().isEmpty()) continue;
             sumAmount += summery.getTotalAmount();
             summeries.add(summery);
         }
@@ -60,7 +59,7 @@ public class ExpenseTypeAdapter extends RecyclerView.Adapter<ExpenseTypeAdapter.
             @SuppressLint("DefaultLocale")
             String percentageString = String.format("%.2f", percentage);
             layoutBinding.textPercentage.setText(percentageString + "%");
-            layoutBinding.seekbar.setProgress((int) percentage);
+            layoutBinding.progressBar.setProgress((int) percentage);
 
         } catch (Exception e) {
             PrintLog.errorLog(TAG, e.getMessage());

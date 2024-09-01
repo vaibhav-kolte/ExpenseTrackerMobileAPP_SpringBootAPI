@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
     private void handleOnClickEvents() {
         binding.bankCard.setOnClickListener(view -> {
             Intent intent = new Intent(context, AddBalanceActivity.class);
+//            Intent intent = new Intent(context, AddTransactionActivity.class);
             startActivity(intent);
         });
 
@@ -94,12 +95,24 @@ public class HomeFragment extends Fragment {
 
         expenseAPIs.getExpenseByTypeAndDuration(username, startDate,
                 endDate, typeSummeryList -> {
-                    ExpenseTypeAdapter adapter = new ExpenseTypeAdapter(typeSummeryList);
-                    binding.typeSummeryRecycler.setHasFixedSize(true);
-                    binding.typeSummeryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.typeSummeryRecycler.setAdapter(adapter);
+                    if (!typeSummeryList.isEmpty()) {
+                        showRecyclerView(true);
+                        ExpenseTypeAdapter adapter = new ExpenseTypeAdapter(typeSummeryList);
+                        binding.typeSummeryRecycler.setHasFixedSize(true);
+                        binding.typeSummeryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+                        binding.typeSummeryRecycler.setAdapter(adapter);
+                    } else {
+                        showRecyclerView(false);
+                        binding.tvRecordNotFound.setText(ContextCompat.getString(context, R.string.no_record_found));
+                    }
                 }, message -> PrintLog.errorLog(TAG, message));
     }
+
+    private void showRecyclerView(boolean flag) {
+        binding.typeSummeryRecycler.setVisibility(flag ? View.VISIBLE : View.GONE);
+        binding.tvRecordNotFound.setVisibility(flag ? View.GONE : View.VISIBLE);
+    }
+
     private void getCurrentMonthSummery() {
         ShareData shareData = new ShareData(context.getApplicationContext());
         String username = shareData.getString(ShareData.USERNAME, "");

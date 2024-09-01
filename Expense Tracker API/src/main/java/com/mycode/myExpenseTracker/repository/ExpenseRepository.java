@@ -48,7 +48,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
             "SUM(e.expenseAmount)) FROM Expense e WHERE e.username = :username " +
-            "AND e.date BETWEEN :startDate AND :endDate " +
+            "AND e.date BETWEEN :startDate AND :endDate AND e.expenseType != \"\"" +
             "GROUP BY e.expenseType")
     List<ExpenseTypeSummery> findExpenseByType(@Param("username") String username,
                                                      LocalDateTime startDate, LocalDateTime endDate);

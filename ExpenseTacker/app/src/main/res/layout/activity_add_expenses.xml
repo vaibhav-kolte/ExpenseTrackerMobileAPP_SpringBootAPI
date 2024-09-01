@@ -135,11 +135,136 @@
         android:id="@+id/btn_save_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save and Next"
+        android:text="@string/btn_save_and_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_save"
         app:layout_constraintTop_toTopOf="@+id/btn_save" />
+
+    <HorizontalScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_save"
+        app:layout_constraintVertical_bias="0.5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="My Self"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_my_self" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Home"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_home"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Rent"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_rent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Bike"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_bike"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Recharge"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_recharge"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Medical"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_medical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Travel"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_travel"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Outside food"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_outside_food"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/rectangle_border"
+                android:layout_margin="4dp"
+                android:text="Member"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableLeftCompat="@drawable/icon_member"/>
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

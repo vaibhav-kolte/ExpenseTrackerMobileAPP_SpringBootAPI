@@ -42,4 +42,6 @@
     <string name="income">Income</string>
     <string name="cash_flow">Cash Flow</string>
     <string name="current_balance">Current Balance</string>
+    <string name="btn_save_and_next">Save and Next</string>
+    <string name="no_record_found">No Record found.</string>
 </resources>
