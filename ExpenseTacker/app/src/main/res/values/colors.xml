@@ -12,4 +12,5 @@
     <color name="light_blue">#0080ff</color>
     <color name="red">#FF0000</color>
     <color name="green">#2A5F17</color>
+    <color name="monthly_view_color">#B2E97C</color>
 </resources>

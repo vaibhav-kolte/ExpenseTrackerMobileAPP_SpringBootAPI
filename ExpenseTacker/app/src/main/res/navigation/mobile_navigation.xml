@@ -22,9 +22,9 @@
         android:name="com.myproject.expensetacker.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
+    <activity
         android:id="@+id/nav_my_expenses"
-        android:name="com.myproject.expensetacker.ui.showExpenses.ShowExpensesFragment"
-        android:label="@string/menu_my_expenses"
-        tools:layout="@layout/fragment_show_expenses" />
+        android:name="com.myproject.expensetacker.ui.ShowExpensesActivity"
+        android:label="activity_show_expenses"
+        tools:layout="@layout/activity_show_expenses" />
 </navigation>

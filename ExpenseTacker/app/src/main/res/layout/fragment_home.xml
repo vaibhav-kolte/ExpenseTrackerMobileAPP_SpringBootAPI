@@ -237,9 +237,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
-                tools:listitem="@layout/expense_type_layout"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:listitem="@layout/expense_type_layout" />
 
             <TextView
                 android:id="@+id/tv_record_not_found"
@@ -251,7 +251,18 @@
                 android:textSize="18sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/type_summery_recycler"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/type_summery_recycler" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,19 +24,20 @@ public class ShowExpensesFragment extends Fragment {
     private static final String TAG = "ShowExpensesFragment";
     private FragmentShowExpensesBinding binding;
     private Context context;
+    private int selectedMonth;
+
+    public ShowExpensesFragment(int selectedMonth) {
+        super();
+        this.selectedMonth = selectedMonth;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentShowExpensesBinding.inflate(inflater, container, false);
         context = getContext();
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         getMyExpenses();
+        return binding.getRoot();
     }
 
     private void getMyExpenses() {

@@ -213,6 +213,8 @@ public class RetrofitManager implements ExpenseAPI {
             @Override
             public void onResponse(@NonNull Call<List<MyExpenses>> call,
                                    @NonNull Response<List<MyExpenses>> response) {
+                assert response.body() != null;
+                PrintLog.debugLog(TAG +" getAllExpensesByUsername ",response.body().toString());
                 if (response.isSuccessful()) {
                     List<MyExpenses> repos = response.body();
                     expense.myExpenses(repos);

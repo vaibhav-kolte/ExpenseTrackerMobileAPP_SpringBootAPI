@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
-    @Query("SELECT e FROM Expense e WHERE e.username = :username ORDER BY e.id DESC")
+    @Query("SELECT e FROM Expense e WHERE e.username = :username AND e.expenseName != \"\" ORDER BY e.id DESC")
     List<Expense> findByUsername(@Param("username") String username);
 
     boolean existsByUsernameAndId(String username, Integer id);

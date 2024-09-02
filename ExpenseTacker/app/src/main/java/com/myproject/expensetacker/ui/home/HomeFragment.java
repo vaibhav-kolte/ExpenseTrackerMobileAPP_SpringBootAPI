@@ -27,6 +27,7 @@ import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
 import com.myproject.expensetacker.ui.AddExpensesActivity;
+import com.myproject.expensetacker.ui.ShowExpensesActivity;
 import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 
@@ -68,7 +69,7 @@ public class HomeFragment extends Fragment {
     private void handleOnClickEvents() {
         binding.bankCard.setOnClickListener(view -> {
             Intent intent = new Intent(context, AddBalanceActivity.class);
-//            Intent intent = new Intent(context, AddTransactionActivity.class);
+//            Intent intent = new Intent(context, ShowExpensesActivity.class);
             startActivity(intent);
         });
 
