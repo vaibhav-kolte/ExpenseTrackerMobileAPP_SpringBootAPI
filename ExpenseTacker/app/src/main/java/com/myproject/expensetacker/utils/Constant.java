@@ -2,8 +2,8 @@ package com.myproject.expensetacker.utils;
 
 public class Constant {
 
-    public static final String[] expenseType = new String[]{"Select Tag", "My Self", "Home", "Rent", "Bike",
-            "Recharge", "Medical", "Travel", "Outside food", "Member"};
+    public static final String[] expenseType = new String[]{"Select Tag", "My Self", "Home", "Member", "Bike",
+            "Recharge", "Rent", "Medical", "Travel", "Outside food", "Investment"};
 
-    public static final String API_URL = "https://a943-2409-40c2-31-c7f8-c421-dbc9-6a06-89f0.ngrok-free.app";
+    public static final String API_URL = "https://d056-103-88-101-207.ngrok-free.app";
 }

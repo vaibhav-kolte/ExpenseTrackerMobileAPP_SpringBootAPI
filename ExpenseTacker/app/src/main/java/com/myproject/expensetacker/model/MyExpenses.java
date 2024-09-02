@@ -108,7 +108,7 @@ public class MyExpenses implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "username='" + username + '\'' +
+        return "\nusername='" + username + '\'' +
                 "\nexpenseName='" + expenseName + '\'' +
                 "\nexpenseAmount=" + expenseAmount +
                 "\ndate='" + date + '\'' +

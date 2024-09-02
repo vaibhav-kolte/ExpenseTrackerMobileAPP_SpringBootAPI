@@ -1,9 +1,9 @@
 package com.myproject.expensetacker.adapter;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +13,6 @@ import com.myproject.expensetacker.model.MyExpenses;
 import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
-import com.myproject.expensetacker.ui.AddExpensesActivity;
 import com.myproject.expensetacker.utils.PrintLog;
 
 import java.util.List;
@@ -30,11 +29,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-//        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-//        View listItem = layoutInflater.inflate(R.layout.show_expense_layout, parent, false);
-//        return new ViewHolder(listItem);
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ShowExpenseLayoutBinding binding = ShowExpenseLayoutBinding.inflate(inflater, parent, false);
         return new ViewHolder(binding);
@@ -43,36 +37,69 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final MyExpenses expenses = expensesList.get(position);
+        System.out.println(expenses + "\n\n");
 
         ShowExpenseLayoutBinding layoutBinding = holder.binding;
+        layoutBinding.expenseLayout.setOnClickListener(view -> {
+            PrintLog.debugLog(TAG, expenses.toString());
+        });
 
-        if(expenses.getExpenseName().isEmpty()) layoutBinding.llExpenseLayout.setVisibility(View.GONE);
-        layoutBinding.tvExpense.setText(expenses.getExpenseName());
-
-        if(String.valueOf(expenses.getExpenseAmount()).isEmpty()) layoutBinding.llExpenseAmountLayout.setVisibility(View.GONE);
-        layoutBinding.tvExpenseAmount.setText(String.valueOf(expenses.getExpenseAmount()));
-
-        if(expenses.getDate().isEmpty()) layoutBinding.llExpenseDateLayout.setVisibility(View.GONE);
-        layoutBinding.tvExpenseDate.setText(expenses.getFormatedDate());
-
-        if(expenses.getExpenseType().isEmpty()) layoutBinding.llExpenseTypeLayout.setVisibility(View.GONE);
-        layoutBinding.tvExpenseType.setText(expenses.getExpenseType());
-
-        if(expenses.getTransactionType().isEmpty()) layoutBinding.llTransactionLayout.setVisibility(View.GONE);
-        layoutBinding.tvTransaction.setText(expenses.getTransactionType());
-
-        if(expenses.getTransactionType().equalsIgnoreCase("Credit")){
-            layoutBinding.imgEditExpense.setVisibility(View.GONE);
-            layoutBinding.imgDeleteExpense.setVisibility(View.GONE);
+        System.out.println("ExpenseName: " + expenses.getExpenseName());
+        if (expenses.getExpenseName().isEmpty()) {
+            layoutBinding.llExpenseLayout.setVisibility(View.GONE);
+            System.out.println("true");
+        } else {
+            layoutBinding.tvExpense.setText(expenses.getExpenseName());
+            System.out.println("false");
         }
 
-        layoutBinding.imgDeleteExpense.setOnClickListener(view -> deleteExpense(expenses, position));
+        System.out.println("Expense Amount: " + expenses.getExpenseAmount());
+        if (String.valueOf(expenses.getExpenseAmount()).isEmpty()) {
+            layoutBinding.llExpenseAmountLayout.setVisibility(View.GONE);
+            System.out.println("true");
+        } else {
+            layoutBinding.tvExpenseAmount.setText(String.valueOf(expenses.getExpenseAmount()));
+            System.out.println("false");
+        }
+        System.out.println("Expense Date: " + expenses.getDate());
+        if (expenses.getDate().isEmpty()) {
+            layoutBinding.llExpenseDateLayout.setVisibility(View.GONE);
+            System.out.println("true");
+        } else {
+            layoutBinding.tvExpenseDate.setText(expenses.getFormatedDate());
+            System.out.println("false");
+        }
 
-        layoutBinding.imgEditExpense.setOnClickListener(view -> {
-            Intent i = new Intent(layoutBinding.getRoot().getContext(), AddExpensesActivity.class);
-            i.putExtra("EXPENSE_OBJECT", expenses);
-            layoutBinding.getRoot().getContext().startActivity(i);
-        });
+        System.out.println("Expense Type: " + expenses.getExpenseType());
+        if (expenses.getExpenseType().isEmpty()) {
+            layoutBinding.llExpenseTypeLayout.setVisibility(View.GONE);
+            System.out.println("true");
+        } else {
+            layoutBinding.tvExpenseType.setText(expenses.getExpenseType());
+            System.out.println("false");
+        }
+
+        System.out.println("Transaction Type: " + expenses.getTransactionType());
+        if (expenses.getTransactionType().isEmpty()) {
+            layoutBinding.llTransactionLayout.setVisibility(View.GONE);
+            System.out.println("true");
+        } else {
+            layoutBinding.tvTransaction.setText(expenses.getTransactionType());
+            System.out.println("false");
+        }
+
+//        if (expenses.getTransactionType().equalsIgnoreCase("Credit")) {
+//            layoutBinding.imgEditExpense.setVisibility(View.GONE);
+//            layoutBinding.imgDeleteExpense.setVisibility(View.GONE);
+//        }
+
+//        layoutBinding.imgDeleteExpense.setOnClickListener(view -> deleteExpense(expenses, position));
+//
+//        layoutBinding.imgEditExpense.setOnClickListener(view -> {
+//            Intent i = new Intent(layoutBinding.getRoot().getContext(), AddExpensesActivity.class);
+//            i.putExtra("EXPENSE_OBJECT", expenses);
+//            layoutBinding.getRoot().getContext().startActivity(i);
+//        });
     }
 
     private void deleteExpense(MyExpenses expenses, int position) {
@@ -93,16 +120,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         return expensesList.size();
     }
 
-//    public static class ViewHolder extends RecyclerView.ViewHolder {
-//        public TextView textView;
-//        public CardView expenseLayout;
-//
-//        public ViewHolder(View itemView) {
-//            super(itemView);
-//            this.textView = itemView.findViewById(R.id.tv_expense);
-//            this.expenseLayout = itemView.findViewById(R.id.expense_layout);
-//        }
-//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ShowExpenseLayoutBinding binding;

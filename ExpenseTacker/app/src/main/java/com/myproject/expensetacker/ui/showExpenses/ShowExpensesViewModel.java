@@ -27,7 +27,13 @@ public class ShowExpensesViewModel extends ViewModel {
 
     public void getExpenses(String username) {
         ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
-        expenseAPI.getAllExpensesByUsername(username, expensesList::setValue, message -> {
+        expenseAPI.getAllExpensesByUsername(username, expensesList -> {
+//            for (MyExpenses myExpenses : expensesList) {
+//                System.out.println("\n\n");
+//                System.out.println(myExpenses);
+//            }
+            this.expensesList.setValue(expensesList);
+        }, message -> {
             Log.e(TAG, "getExpenses: Exception: " + message);
         });
     }

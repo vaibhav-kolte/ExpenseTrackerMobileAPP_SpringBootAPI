@@ -146,24 +146,24 @@
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <ImageView
-            android:id="@+id/img_edit_expense"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/icon_edit"
-            app:layout_constraintEnd_toStartOf="@+id/img_delete_expense"
-            app:layout_constraintTop_toTopOf="@+id/img_delete_expense" />
+<!--        <ImageView-->
+<!--            android:id="@+id/img_edit_expense"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:src="@drawable/icon_edit"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/img_delete_expense"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/img_delete_expense" />-->
 
-        <ImageView
-            android:id="@+id/img_delete_expense"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/icon_delete"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/img_delete_expense"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:src="@drawable/icon_delete"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
