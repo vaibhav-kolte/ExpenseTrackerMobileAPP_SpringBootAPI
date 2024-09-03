@@ -32,8 +32,6 @@ import com.myproject.expensetacker.utils.ShareData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
@@ -86,35 +84,6 @@ public class HomeFragment extends Fragment {
                     startFinancialYearDate().toString(),
                     nextFinancialYearDate().toString());
         });
-
-        binding.button.setOnClickListener(view -> {
-
-            String yearRange = getCurrentFinancialYear(); // Example input string
-
-            String[] years = yearRange.split(" ");
-
-            String startYear = years[0];
-            String endYear = years[1];
-
-            System.out.println("Start Year: " + startYear);
-            System.out.println("End Year: " + endYear);
-        });
-    }
-
-    public static String getCurrentFinancialYear() {
-        LocalDate today = LocalDate.now();
-        int currentYear = today.getYear();
-
-        LocalDate startOfCurrentFinancialYear = LocalDate.of(currentYear, 4, 1);
-        LocalDate endOfCurrentFinancialYear = LocalDate.of(currentYear + 1, 3, 31);
-
-        if (today.isBefore(startOfCurrentFinancialYear)) {
-            startOfCurrentFinancialYear = LocalDate.of(currentYear - 1, 4, 1);
-            endOfCurrentFinancialYear = LocalDate.of(currentYear, 3, 31);
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-        return startOfCurrentFinancialYear.format(formatter) + " " + endOfCurrentFinancialYear.format(formatter);
     }
 
     private void getTypeSummery(String startDate, String endDate) {
