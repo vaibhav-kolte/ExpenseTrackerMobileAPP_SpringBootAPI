@@ -1,15 +1,21 @@
 package com.myproject.expensetacker.model;
 
+import androidx.annotation.NonNull;
 
 public class MonthlyView {
     private int monthNumber;
     private String monthName;
-    private int icon;
+    private String year;
 
-    public MonthlyView(int monthNumber, String monthName, int icon) {
+    public MonthlyView(int monthNumber, String monthName) {
         this.monthNumber = monthNumber;
         this.monthName = monthName;
-        this.icon = icon;
+    }
+
+    public MonthlyView(int monthNumber, String monthName, String year) {
+        this.monthNumber = monthNumber;
+        this.monthName = monthName;
+        this.year = year;
     }
 
     public int getMonthNumber() {
@@ -28,11 +34,21 @@ public class MonthlyView {
         this.monthName = monthName;
     }
 
-    public int getIcon() {
-        return icon;
+    public String getYear() {
+        return year;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "MonthlyView{" +
+                "monthNumber=" + monthNumber +
+                ", monthName='" + monthName + '\'' +
+                ", year='" + year + '\'' +
+                '}';
     }
 }

@@ -51,19 +51,17 @@ public class ExpenseService {
         return expenseRepository.findCurrentMonthSummeryByUsername(username);
     }
 
-    public List<ExpenseTypeSummery> findMonthlyExpenseByType(String username) {
-        return expenseRepository.findMonthlyExpenseByType(username);
-    }
-
-//    public List<ExpenseTypeSummery> findYearlyExpenseByType(String username) {
-//        return expenseRepository.findYearlyExpenseByType(username, getLocalDateTime("2024-04-01"),
-//                getLocalDateTime("2025-04-01"));
-//    }
-
     public List<ExpenseTypeSummery> findExpenseByType(String username, LocalDateTime startDate,
                                                       LocalDateTime endDate) {
         return expenseRepository.findExpenseByType(username,
                 startDate, endDate);
     }
+
+    public List<Expense> getExpenseByDuration(String username, LocalDateTime startDate,
+                                                      LocalDateTime endDate) {
+        return expenseRepository.getExpenseByDuration(username,
+                startDate, endDate);
+    }
+
 
 }

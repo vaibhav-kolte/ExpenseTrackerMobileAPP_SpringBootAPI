@@ -27,12 +27,13 @@ import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
 import com.myproject.expensetacker.ui.AddExpensesActivity;
-import com.myproject.expensetacker.ui.ShowExpensesActivity;
 import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
@@ -69,7 +70,6 @@ public class HomeFragment extends Fragment {
     private void handleOnClickEvents() {
         binding.bankCard.setOnClickListener(view -> {
             Intent intent = new Intent(context, AddBalanceActivity.class);
-//            Intent intent = new Intent(context, ShowExpensesActivity.class);
             startActivity(intent);
         });
 
@@ -86,6 +86,35 @@ public class HomeFragment extends Fragment {
                     startFinancialYearDate().toString(),
                     nextFinancialYearDate().toString());
         });
+
+        binding.button.setOnClickListener(view -> {
+
+            String yearRange = getCurrentFinancialYear(); // Example input string
+
+            String[] years = yearRange.split(" ");
+
+            String startYear = years[0];
+            String endYear = years[1];
+
+            System.out.println("Start Year: " + startYear);
+            System.out.println("End Year: " + endYear);
+        });
+    }
+
+    public static String getCurrentFinancialYear() {
+        LocalDate today = LocalDate.now();
+        int currentYear = today.getYear();
+
+        LocalDate startOfCurrentFinancialYear = LocalDate.of(currentYear, 4, 1);
+        LocalDate endOfCurrentFinancialYear = LocalDate.of(currentYear + 1, 3, 31);
+
+        if (today.isBefore(startOfCurrentFinancialYear)) {
+            startOfCurrentFinancialYear = LocalDate.of(currentYear - 1, 4, 1);
+            endOfCurrentFinancialYear = LocalDate.of(currentYear, 3, 31);
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        return startOfCurrentFinancialYear.format(formatter) + " " + endOfCurrentFinancialYear.format(formatter);
     }
 
     private void getTypeSummery(String startDate, String endDate) {
@@ -129,7 +158,8 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateViewAppearance(TextView selectedTextView, TextView unselectedTextView,
+    private void updateViewAppearance(@NonNull TextView selectedTextView,
+                                      @NonNull TextView unselectedTextView,
                                       String startDate, String endDate) {
         selectedTextView.setBackgroundResource(R.drawable.textview_rounded_background);
         selectedTextView.setTextColor(ContextCompat.getColor(context, R.color.white));

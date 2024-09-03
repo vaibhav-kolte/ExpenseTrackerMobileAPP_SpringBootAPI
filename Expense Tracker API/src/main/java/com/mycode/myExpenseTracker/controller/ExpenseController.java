@@ -8,6 +8,7 @@ import com.mycode.myExpenseTracker.exceptions.UserNotFound;
 import com.mycode.myExpenseTracker.model.Expense;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class ExpenseController {
     private LoginAccountService loginAccountService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Expense expense) throws InsufficientBalanceException {
+    public ResponseEntity<?> add(@NotNull @RequestBody Expense expense) throws InsufficientBalanceException {
         try {
             if (expense.getUsername().isEmpty()
                     || String.valueOf(expense.getExpenseAmount()).isEmpty()
@@ -144,28 +145,10 @@ public class ExpenseController {
         }
     }
 
-    @GetMapping("/monthly-group_type/{username}")
-    public ResponseEntity<?> findMonthlyExpenseByType(@PathVariable String username) {
-        try {
-            if (loginAccountService.existsByUsername(username)) {
-                List<ExpenseTypeSummery> expenseTypeSummeryList
-                        = expenseService.findMonthlyExpenseByType(username);
-                return new ResponseEntity<>(expenseTypeSummeryList, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (NullPointerException e) {
-            System.out.println("Null Pointer Exception: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (NoSuchElementException e) {
-            System.out.println("Not found: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/yearly-group_type/{username}/{startDate}/{endDate}")
-    public ResponseEntity<?> getYearlyExpenseByType(@PathVariable String username,
-                                                    @PathVariable String startDate,
-                                                    @PathVariable String endDate) {
+    @GetMapping("/group_type-expense-sum/{username}/{startDate}/{endDate}")
+    public ResponseEntity<?> getExpenseByTypeSpecificDuration(@PathVariable String username,
+                                                              @PathVariable String startDate,
+                                                              @PathVariable String endDate) {
         try {
             if (loginAccountService.existsByUsername(username)) {
                 List<ExpenseTypeSummery> expenseTypeSummeryList
@@ -179,6 +162,23 @@ public class ExpenseController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NoSuchElementException e) {
             System.out.println("Not found: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/get-expense-by-duration/{username}/{startDate}/{endDate}")
+    public ResponseEntity<?> getExpenseByDuration(@PathVariable String username,
+                                                  @PathVariable String startDate,
+                                                  @PathVariable String endDate) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                List<Expense> expenseTypeSummeryList
+                        = expenseService.getExpenseByDuration(username,
+                        getLocalDateTime(startDate), getLocalDateTime(endDate));
+                return new ResponseEntity<>(expenseTypeSummeryList, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException | NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

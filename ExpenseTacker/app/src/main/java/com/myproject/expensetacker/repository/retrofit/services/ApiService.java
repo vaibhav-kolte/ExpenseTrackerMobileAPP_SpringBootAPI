@@ -21,10 +21,6 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @Multipart
-    @POST("/file/upload/{username}")
-    Call<ResponseBody> uploadProfilePhoto(@Path("username") String username, @Part MultipartBody.Part part);
-
     @GET("/login/get/{username}")
     Call<Account> checkUser(@Path("username") String username);
 
@@ -56,8 +52,13 @@ public interface ApiService {
     @GET("/login/{filename}")
     Call<ResponseBody> downloadProfilePhoto(@Path("filename") String filename);
 
-    @GET("/expense/yearly-group_type/{username}/{startDate}/{endDate}")
-    Call<List<TypeSummery>> getYearlyExpenseByType(@Path("username") String username,
+    @GET("/expense/group_type-expense-sum/{username}/{startDate}/{endDate}")
+    Call<List<TypeSummery>> getExpenseByTypeSpecificDuration(@Path("username") String username,
                                                    @Path("startDate") String startDate,
                                                    @Path("endDate") String endDate);
+
+    @GET("/expense/get-expense-by-duration/{username}/{startDate}/{endDate}")
+    Call<List<MyExpenses>> getExpenseByDuration(@Path("username") String username,
+                                                             @Path("startDate") String startDate,
+                                                             @Path("endDate") String endDate);
 }

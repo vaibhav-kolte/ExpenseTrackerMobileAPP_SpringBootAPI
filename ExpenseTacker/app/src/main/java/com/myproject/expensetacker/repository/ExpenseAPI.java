@@ -46,4 +46,8 @@ public interface ExpenseAPI {
                                      String startDate,
                                      String endDate, TypeSummeryByDuration typeSummery, APIException exception);
 
+    void getExpenseByDuration(String username,
+                              String startDate,
+                              String endDate, ExpenseByUsername expense, APIException exception);
+
 }

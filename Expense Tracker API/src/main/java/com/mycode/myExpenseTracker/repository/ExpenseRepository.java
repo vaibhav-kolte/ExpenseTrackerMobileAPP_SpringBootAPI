@@ -38,18 +38,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
             "WHERE e.username = :username GROUP BY e.expenseType")
     List<ExpenseTypeSummery> findMonthlyExpenseByType(@Param("username") String username);
 
-
-    @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
-            "SUM(e.expenseAmount)) FROM Expense e WHERE e.username = :username " +
-            "AND e.date BETWEEN :startDate AND :endDate " +
-            "GROUP BY e.expenseType")
-    List<ExpenseTypeSummery> findYearlyExpenseByType(@Param("username") String username,
-                                                    LocalDateTime startDate, LocalDateTime endDate);
-
     @Query("SELECT new com.mycode.myExpenseTracker.entities.ExpenseTypeSummery(e.expenseType, " +
             "SUM(e.expenseAmount)) FROM Expense e WHERE e.username = :username " +
             "AND e.date BETWEEN :startDate AND :endDate AND e.expenseType != \"\"" +
             "GROUP BY e.expenseType")
     List<ExpenseTypeSummery> findExpenseByType(@Param("username") String username,
-                                                     LocalDateTime startDate, LocalDateTime endDate);
+                                               LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("SELECT e FROM Expense e WHERE e.username = :username " +
+            "AND e.date BETWEEN :startDate AND :endDate ORDER BY e.id DESC")
+    List<Expense> getExpenseByDuration(@Param("username") String username,
+                                       LocalDateTime startDate, LocalDateTime endDate);
 }

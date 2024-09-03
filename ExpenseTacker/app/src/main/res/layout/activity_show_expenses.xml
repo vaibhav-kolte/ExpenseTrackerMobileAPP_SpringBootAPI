@@ -6,47 +6,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ShowExpensesActivity">
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/expense_recycler_view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:paddingBottom="8dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="0.5"-->
-    <!--        tools:listitem="@layout/show_expense_layout"/>-->
 
-    <FrameLayout
-        android:id="@+id/flFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/expenses_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:padding="4dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/recyclerView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/bottomNavigationView"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="75dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:menu="@menu/bottom_nav_menu" />-->
+    <TextView
+        android:id="@+id/no_expense"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:text="No record found."
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recyclerView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/monthly_view_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        android:background="@color/monthly_view_color"
         tools:listitem="@layout/monthly_view_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

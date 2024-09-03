@@ -214,7 +214,7 @@ public class RetrofitManager implements ExpenseAPI {
             public void onResponse(@NonNull Call<List<MyExpenses>> call,
                                    @NonNull Response<List<MyExpenses>> response) {
                 assert response.body() != null;
-                PrintLog.debugLog(TAG +" getAllExpensesByUsername ",response.body().toString());
+                PrintLog.debugLog(TAG + " getAllExpensesByUsername ", response.body().toString());
                 if (response.isSuccessful()) {
                     List<MyExpenses> repos = response.body();
                     expense.myExpenses(repos);
@@ -390,7 +390,7 @@ public class RetrofitManager implements ExpenseAPI {
     @Override
     public void getExpenseByTypeAndDuration(String username, String startDate, String endDate, TypeSummeryByDuration typeSummery, APIException exception) {
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<List<TypeSummery>> call = apiService.getYearlyExpenseByType(username, startDate, endDate);
+        Call<List<TypeSummery>> call = apiService.getExpenseByTypeSpecificDuration(username, startDate, endDate);
         call.enqueue(new Callback<List<TypeSummery>>() {
             @Override
             public void onResponse(@NonNull Call<List<TypeSummery>> call,
@@ -412,6 +412,36 @@ public class RetrofitManager implements ExpenseAPI {
             public void onFailure(@NonNull Call<List<TypeSummery>> call,
                                   @NonNull Throwable t) {
                 exception.apiCalledFailed("Failed to get yearly type summery. Exception: " + t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getExpenseByDuration(String username, String startDate, String endDate,
+                                     ExpenseByUsername expense, APIException exception) {
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        Call<List<MyExpenses>> call = apiService.getExpenseByDuration(username, startDate, endDate);
+        call.enqueue(new Callback<List<MyExpenses>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<MyExpenses>> call,
+                                   @NonNull Response<List<MyExpenses>> response) {
+                Log.e(TAG, "onResponse: Login " + response);
+                if (response.isSuccessful()) {
+                    List<MyExpenses> expensesList = response.body();
+                    if (expensesList != null) {
+                        expense.myExpenses(expensesList);
+                    } else {
+                        exception.apiCalledFailed("Failed to get expense by duration " + startDate + " to " + endDate);
+                    }
+                } else {
+                    exception.apiCalledFailed("Failed to get expense by duration. Status code is " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<MyExpenses>> call,
+                                  @NonNull Throwable t) {
+                exception.apiCalledFailed("Failed to get expense by duration. Exception: " + t.getMessage());
             }
         });
     }

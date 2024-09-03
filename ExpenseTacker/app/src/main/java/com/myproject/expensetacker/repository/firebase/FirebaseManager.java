@@ -81,4 +81,9 @@ public class FirebaseManager implements ExpenseAPI {
     public void getExpenseByTypeAndDuration(String username, String startDate, String endDate, TypeSummeryByDuration typeSummery, APIException exception) {
 
     }
+
+    @Override
+    public void getExpenseByDuration(String username, String startDate, String endDate, ExpenseByUsername expense, APIException exception) {
+
+    }
 }
