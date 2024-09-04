@@ -14,6 +14,7 @@ import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddExpensesActivity;
+import com.myproject.expensetacker.ui.MainActivity;
 import com.myproject.expensetacker.utils.PrintLog;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
 
     private static final String TAG = "ExpenseAdapter";
-    private List<MyExpenses> expensesList;
+    private final List<MyExpenses> expensesList;
 
     public ExpenseAdapter(List<MyExpenses> expensesList) {
         this.expensesList = expensesList;
@@ -60,7 +61,6 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
             holder.binding.llExpenseTypeLayout.setVisibility(View.GONE);
         } else {
             holder.binding.tvExpenseType.setText(expenses.getExpenseType());
-            System.out.println("false");
         }
 
         if (expenses.getTransactionType().isEmpty()) {
@@ -77,7 +77,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         holder.binding.imgDeleteExpense.setOnClickListener(view -> deleteExpense(expenses, position));
 
         holder.binding.imgEditExpense.setOnClickListener(view -> {
-            Intent i = new Intent(holder.binding.getRoot().getContext(), AddExpensesActivity.class);
+            Intent i = new Intent(holder.binding.getRoot().getContext(), MainActivity.class);
             i.putExtra("EXPENSE_OBJECT", expenses);
             holder.binding.getRoot().getContext().startActivity(i);
         });

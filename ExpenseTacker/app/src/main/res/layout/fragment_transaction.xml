@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.TransactionFragment">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/icon_left_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:importantForAccessibility="no"
+            android:src="@drawable/icon_left_arrow" />
+
+        <TextView
+            android:id="@+id/tv_today_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <ImageButton
+            android:id="@+id/icon_right_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:importantForAccessibility="no"
+            android:src="@drawable/icon_right_arrow" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_expense"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/expense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_amount"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_field_expense">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:text="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:scrollbars="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_field_amount">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_my_self"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="My Self"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_my_self" />
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Home"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_home" />
+
+            <TextView
+                android:id="@+id/tv_rent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Rent"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_rent" />
+
+            <TextView
+                android:id="@+id/tv_bike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Bike"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_bike" />
+
+            <TextView
+                android:id="@+id/tv_recharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Recharge"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_recharge" />
+
+            <TextView
+                android:id="@+id/tv_medical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Medical"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_medical" />
+
+            <TextView
+                android:id="@+id/tv_travel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Travel"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_travel" />
+
+            <TextView
+                android:id="@+id/tv_outside_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Outside food"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_outside_food" />
+
+            <TextView
+                android:id="@+id/tv_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@drawable/rectangle_border"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:text="Member"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/icon_member" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_update"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

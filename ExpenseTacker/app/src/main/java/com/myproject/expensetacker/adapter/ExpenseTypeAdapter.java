@@ -1,6 +1,5 @@
 package com.myproject.expensetacker.adapter;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.ExpenseTypeLayoutBinding;
 import com.myproject.expensetacker.model.TypeSummery;
 import com.myproject.expensetacker.utils.PrintLog;
@@ -50,8 +50,7 @@ public class ExpenseTypeAdapter extends RecyclerView.Adapter<ExpenseTypeAdapter.
 
         try {
             String iconName = formatToIconName(summery.getExpenseType());
-            int resourceId = context.getResources().getIdentifier(iconName,
-                    "drawable", context.getPackageName());
+            int resourceId = R.drawable.class.getField(iconName).getInt(null);
             layoutBinding.imageview.setImageDrawable(ContextCompat.getDrawable(context, resourceId));
             layoutBinding.name.setText(summery.getExpenseType());
             layoutBinding.amount.setText(String.valueOf(summery.getTotalAmount()));

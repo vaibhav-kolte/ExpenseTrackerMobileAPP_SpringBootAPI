@@ -1,17 +1,28 @@
 package com.myproject.expensetacker.utils;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
     private static final String TAG = "Utils";
@@ -71,4 +82,12 @@ public class Utils {
     public static LocalDate nextFinancialYearDate() {
         return startFinancialYearDate().plusYears(1);
     }
+
+    @NonNull
+    public static String getCurrentDate() {
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return dateFormat.format(currentDate);
+    }
+
 }

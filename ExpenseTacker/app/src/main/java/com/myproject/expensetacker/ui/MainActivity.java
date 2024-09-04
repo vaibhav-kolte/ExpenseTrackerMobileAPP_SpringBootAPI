@@ -9,25 +9,26 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.ActivityMainBinding;
 import com.myproject.expensetacker.databinding.NavHeaderMainBinding;
+import com.myproject.expensetacker.model.MyExpenses;
 import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
-import com.myproject.expensetacker.ui.gallery.GalleryFragment;
+import com.myproject.expensetacker.ui.fragments.AddIncomeFragment;
+import com.myproject.expensetacker.ui.fragments.TransactionFragment;
 import com.myproject.expensetacker.ui.home.HomeFragment;
-import com.myproject.expensetacker.ui.slideshow.SlideshowFragment;
 import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 import com.myproject.expensetacker.utils.Utils;
@@ -55,34 +56,33 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
-//        binding.appBarMain.bottomNavigationView.setSelectedItemId(R.id.nav_home);
-
         context = MainActivity.this;
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, new HomeFragment())
-                .commit();
+        try {
+            Intent i = getIntent();
+            MyExpenses myExpenses = (MyExpenses) i.getSerializableExtra("EXPENSE_OBJECT");
+            if (myExpenses != null) {
+                updateFragment(new TransactionFragment(myExpenses));
+                binding.appBarMain.bottomNavigationView.setSelectedItemId(R.id.nav_expense);
+            } else {
+                updateFragment(new HomeFragment());
+            }
+        } catch (Exception e) {
+            PrintLog.errorLog(TAG, "Exception: " + e.getMessage());
+            updateFragment(new HomeFragment());
+        }
+
 
         binding.appBarMain.bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                FragmentManager fragmentManager1 = getSupportFragmentManager();
-                fragmentManager1.beginTransaction()
-                        .replace(R.id.frame_layout, new HomeFragment())
-                        .commit();
+                updateFragment(new HomeFragment());
                 return true;
             } else if (id == R.id.nav_expense) {
-                FragmentManager fragmentManager1 = getSupportFragmentManager();
-                fragmentManager1.beginTransaction()
-                        .replace(R.id.frame_layout, new GalleryFragment())
-                        .commit();
+                updateFragment(new TransactionFragment());
                 return true;
-            } else if (id == R.id.nav_saving) {
-                FragmentManager fragmentManager1 = getSupportFragmentManager();
-                fragmentManager1.beginTransaction()
-                        .replace(R.id.frame_layout, new SlideshowFragment())
-                        .commit();
+            } else if (id == R.id.nav_income) {
+                updateFragment(new AddIncomeFragment());
                 return true;
             }
             return false;
@@ -122,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void updateFragment(Fragment fragment) {
+        FragmentManager fragmentManager1 = getSupportFragmentManager();
+        fragmentManager1.beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -130,17 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onBackPressed() {
-        // Check if the drawer is open
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            // Close the drawer
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            // Otherwise, proceed with the normal back button behavior
-            super.onBackPressed();
-        }
-    }
+
     private void logoutUser() {
         ShareData shareData = new ShareData(context);
         shareData.clearAll();

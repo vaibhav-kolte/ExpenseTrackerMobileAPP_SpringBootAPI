@@ -7,9 +7,9 @@
     <item
         android:id="@+id/nav_expense"
         android:title="Expense"
-        android:icon="@drawable/icon_currency_rupee"/>
+        android:icon="@drawable/icon_notes"/>
     <item
-        android:id="@+id/nav_saving"
-        android:title="Saving"
-        android:icon="@drawable/icon_investment"/>
+        android:id="@+id/nav_income"
+        android:title="Income"
+        android:icon="@drawable/icon_currency_rupee"/>
 </menu>

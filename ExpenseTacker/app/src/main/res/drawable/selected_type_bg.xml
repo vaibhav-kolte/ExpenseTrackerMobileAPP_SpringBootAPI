@@ -8,6 +8,6 @@
     <corners android:radius="8dp"/>
 
     <solid
-        android:color="@color/white"/>
+        android:color="@color/monthly_view_color"/>
 
 </shape>

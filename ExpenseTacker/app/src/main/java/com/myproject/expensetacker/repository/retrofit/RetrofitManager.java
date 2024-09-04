@@ -244,15 +244,15 @@ public class RetrofitManager implements ExpenseAPI {
                 if (response.isSuccessful()) {
                     updateExpense.expenseUpdated();
                 } else {
-                    exception.apiCalledFailed(response.message());
+                    String message = response.message();
+                    exception.apiCalledFailed("Exception: " + message);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call,
                                   @NonNull Throwable t) {
-                Log.e("TAG", "onFailure: " + t);
-                exception.apiCalledFailed(t.getMessage());
+                exception.apiCalledFailed("failed to update: " + t.getMessage());
             }
         });
     }
