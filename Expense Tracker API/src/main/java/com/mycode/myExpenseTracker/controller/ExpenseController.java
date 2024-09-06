@@ -1,5 +1,6 @@
 package com.mycode.myExpenseTracker.controller;
 
+import com.mycode.myExpenseTracker.entities.DailyTransactionSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.exceptions.InsufficientBalanceException;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -176,6 +178,23 @@ public class ExpenseController {
                         = expenseService.getExpenseByDuration(username,
                         getLocalDateTime(startDate), getLocalDateTime(endDate));
                 return new ResponseEntity<>(expenseTypeSummeryList, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NullPointerException | NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/get-monthly-summery/{username}/{startDate}/{endDate}")
+    public ResponseEntity<?> getDailyIncomeAndExpenses(@PathVariable String username,
+                                                  @PathVariable String startDate,
+                                                  @PathVariable String endDate) {
+        try {
+            if (loginAccountService.existsByUsername(username)) {
+                List<DailyTransactionSummary> monthlySummery
+                        = expenseService.getDailyIncomeAndExpenses(username,
+                        getLocalDateTime(startDate), getLocalDateTime(endDate));
+                return new ResponseEntity<>(monthlySummery, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NullPointerException | NoSuchElementException e) {

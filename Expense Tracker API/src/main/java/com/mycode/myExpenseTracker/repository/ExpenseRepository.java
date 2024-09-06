@@ -1,5 +1,6 @@
 package com.mycode.myExpenseTracker.repository;
 
+import com.mycode.myExpenseTracker.entities.DailyTransactionSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.model.Expense;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +27,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
             "COALESCE(SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END), 0) " +
             "FROM Expense e WHERE e.username = :username")
     double getAvailableBalanceByUsername(@Param("username") String username);
+
+//    @Query("SELECT new com.mycode.myExpenseTracker.entities.DailyTransactionSummary(e.date, " +
+//            "COALESCE(SUM(CASE WHEN e.transactionType = 'CREDIT' THEN e.expenseAmount ELSE 0 END), 0), " +
+//            "COALESCE(SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END), 0))" +
+//            "FROM Expense e WHERE e.username = :username AND e.date BETWEEN :startDate AND :endDate " +
+//            "GROUP BY e.date ORDER BY e.date")
+//    List<DailyTransactionSummary> findExpenseSummary(@Param("username") String username,
+//                                                     @Param("startDate") LocalDateTime startDate,
+//                                                     @Param("endDate") LocalDateTime endDate);
 
     @Query("SELECT " +
             "SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END) AS totalDebit, " +
@@ -49,4 +60,25 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
             "AND e.date BETWEEN :startDate AND :endDate ORDER BY e.id DESC")
     List<Expense> getExpenseByDuration(@Param("username") String username,
                                        LocalDateTime startDate, LocalDateTime endDate);
+
+//    @Query("SELECT new com.mycode.myExpenseTracker.entities.DailyTransactionSummary(e.date, " +
+//            "SUM(CASE WHEN e.transactionType = 'CREDIT' THEN e.expenseAmount ELSE 0 END), " +
+//            "SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END))" +
+//            "FROM Expense e " +
+//            "WHERE e.username = :username AND e.date BETWEEN :startDate AND :endDate " +
+//            "GROUP BY e.date " +
+//            "ORDER BY e.date")
+//    List<DailyTransactionSummary> getDailyIncomeAndExpenses(@Param("username") String username,
+//                                                           LocalDateTime startDate,
+//                                                           LocalDateTime endDate);
+
+//    @Query(value = "SELECT " +
+//            "date AS transaction_date, " +
+//            "SUM(CASE WHEN transaction_type = 'CREDIT' THEN expense_amount ELSE 0 END) AS total_credit, " +
+//            "SUM(CASE WHEN transaction_type = 'DEBIT' THEN expense_amount ELSE 0 END) AS total_debit " +
+//            "FROM Expense " +
+//            "WHERE username = :username AND date BETWEEN :startDate AND :endDate " +
+//            "GROUP BY date", nativeQuery = true)
+
+
 }

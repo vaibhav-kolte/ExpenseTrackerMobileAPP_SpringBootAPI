@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(context, ShowExpensesActivity.class));
             } else if (id == R.id.nav_logout) {
                 logoutUser();
+            } else if (id == R.id.nav_month) {
+                startActivity(new Intent(context, MonthActivity.class));
             }
 
             binding.drawerLayout.closeDrawer(GravityCompat.START);

@@ -23,5 +23,9 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/icon_logout"
             android:title="@string/action_logout" />
+        <item
+            android:id="@+id/nav_month"
+            android:icon="@drawable/icon_logout"
+            android:title="Month" />
     </group>
 </menu>

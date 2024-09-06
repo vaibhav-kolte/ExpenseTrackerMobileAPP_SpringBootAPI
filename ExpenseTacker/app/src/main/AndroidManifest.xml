@@ -4,10 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTacker"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.MonthActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.ShowExpensesActivity"
             android:exported="false" />
@@ -48,17 +47,6 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ExpenseTacker.NoActionBar" />
-
-        <receiver android:name=".utils.NotificationReceiver" />
-        <receiver
-            android:name=".utils.BootReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>
