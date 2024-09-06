@@ -43,6 +43,17 @@ public class MonthViewAdapter extends RecyclerView.Adapter<MonthViewAdapter.View
             holder.binding.tvIncome.setVisibility(View.GONE);
             holder.binding.tvExpense.setVisibility(View.GONE);
         }
+        if(monthExpense.getExpense()>0){
+            holder.binding.tvExpense.setText(String.valueOf((int)Math.round(monthExpense.getExpense())));
+        }else{
+            holder.binding.tvExpense.setVisibility(View.INVISIBLE);
+        }
+
+        if(monthExpense.getIncome()>0){
+            holder.binding.tvIncome.setText(String.valueOf((int)Math.round(monthExpense.getIncome())));
+        }else{
+            holder.binding.tvIncome.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

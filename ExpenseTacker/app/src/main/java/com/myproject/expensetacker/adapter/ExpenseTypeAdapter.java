@@ -22,7 +22,7 @@ public class ExpenseTypeAdapter extends RecyclerView.Adapter<ExpenseTypeAdapter.
     private final List<TypeSummery> typeSummeryList;
     private double sumAmount = 0;
 
-    public ExpenseTypeAdapter(List<TypeSummery> typeSummeryList) {
+    public ExpenseTypeAdapter(@NonNull List<TypeSummery> typeSummeryList) {
         List<TypeSummery> summeries = new ArrayList<>();
 
         for (TypeSummery summery : typeSummeryList) {

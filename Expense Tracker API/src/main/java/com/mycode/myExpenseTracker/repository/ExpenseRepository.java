@@ -28,14 +28,25 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
             "FROM Expense e WHERE e.username = :username")
     double getAvailableBalanceByUsername(@Param("username") String username);
 
+//    @Query(value = "SELECT e.date AS transactionDate, " +
+//            "COALESCE(SUM(CASE WHEN e.transaction_type = 'CREDIT' THEN e.expense_amount ELSE 0 END), 0) AS totalIncome, " +
+//            "COALESCE(SUM(CASE WHEN e.transaction_type = 'DEBIT' THEN e.expense_amount ELSE 0 END), 0) AS totalExpenses " +
+//            "FROM expense e WHERE e.username = :username AND e.date BETWEEN :startDate AND :endDate " +
+//            "GROUP BY e.date ORDER BY e.date", nativeQuery = true)
+//    List<DailyTransactionSummary> findExpenseSummary(@Param("username") String username,
+//                                                     @Param("startDate") LocalDateTime startDate,
+//                                                     @Param("endDate") LocalDateTime endDate);
+
+
 //    @Query("SELECT new com.mycode.myExpenseTracker.entities.DailyTransactionSummary(e.date, " +
 //            "COALESCE(SUM(CASE WHEN e.transactionType = 'CREDIT' THEN e.expenseAmount ELSE 0 END), 0), " +
-//            "COALESCE(SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END), 0))" +
+//            "COALESCE(SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END), 0)) " +
 //            "FROM Expense e WHERE e.username = :username AND e.date BETWEEN :startDate AND :endDate " +
 //            "GROUP BY e.date ORDER BY e.date")
 //    List<DailyTransactionSummary> findExpenseSummary(@Param("username") String username,
 //                                                     @Param("startDate") LocalDateTime startDate,
 //                                                     @Param("endDate") LocalDateTime endDate);
+//    Reason: Validation failed for query for method public abstract java.util.List com.mycode.myExpenseTracker.repository.ExpenseRepository.findExpenseSummary(java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime)
 
     @Query("SELECT " +
             "SUM(CASE WHEN e.transactionType = 'DEBIT' THEN e.expenseAmount ELSE 0 END) AS totalDebit, " +

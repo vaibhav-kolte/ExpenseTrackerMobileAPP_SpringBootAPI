@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -14,11 +15,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class DailyTransactionSummary {
-    private LocalDateTime transactionDate;
+    private LocalDate transactionDate;
     private Double totalIncome;
     private Double totalExpenses;
 
-    public DailyTransactionSummary(LocalDateTime transactionDate, Double totalIncome, Double totalExpenses) {
+    public DailyTransactionSummary(LocalDate transactionDate, Double totalIncome, Double totalExpenses) {
         this.transactionDate = transactionDate;
         this.totalIncome = totalIncome;
         this.totalExpenses = totalExpenses;

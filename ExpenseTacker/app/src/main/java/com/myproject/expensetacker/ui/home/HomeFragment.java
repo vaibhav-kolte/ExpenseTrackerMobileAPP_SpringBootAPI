@@ -96,6 +96,16 @@ public class HomeFragment extends Fragment {
                 endDate, typeSummeryList -> {
                     if (!typeSummeryList.isEmpty()) {
                         showRecyclerView(true);
+
+                        typeSummeryList.sort((o1, o2) -> Double.compare(o2.getTotalAmount(), o1.getTotalAmount()));
+
+                        // Same as above
+//                        Collections.sort(typeSummeryList, new Comparator<TypeSummery>() {
+//                            @Override
+//                            public int compare(TypeSummery o1, TypeSummery o2) {
+//                                return Double.compare(o2.getTotalAmount(), o1.getTotalAmount());
+//                            }
+//                        });
                         ExpenseTypeAdapter adapter = new ExpenseTypeAdapter(typeSummeryList);
                         binding.typeSummeryRecycler.setHasFixedSize(true);
                         binding.typeSummeryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
