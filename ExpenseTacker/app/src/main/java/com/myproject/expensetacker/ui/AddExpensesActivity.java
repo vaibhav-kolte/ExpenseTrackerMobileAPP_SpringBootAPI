@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -130,7 +132,7 @@ public class AddExpensesActivity extends AppCompatActivity {
     }
 
     private void addExpense(MyExpenses expenses) {
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.addExpense(expenses, () -> {
             Toast.makeText(context, "Expense Added successfully.", Toast.LENGTH_SHORT).show();
             finish();
@@ -141,7 +143,7 @@ public class AddExpensesActivity extends AppCompatActivity {
     }
 
     private void updateExpense(MyExpenses myExpenses) {
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.updateExpense(myExpenses, () -> {
             Toast.makeText(context, "Expense Updated successfully.", Toast.LENGTH_SHORT).show();
             finish();

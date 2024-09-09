@@ -35,7 +35,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void getMyBudgetUsingAPI() {
 
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
 
         ShareData shareData = new ShareData(getApplication().getApplicationContext());
 

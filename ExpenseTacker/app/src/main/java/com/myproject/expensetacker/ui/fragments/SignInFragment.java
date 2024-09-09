@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui.fragments;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -128,7 +130,7 @@ public class SignInFragment extends Fragment {
         if (!checkInputs(username, password, confirmPassword)) return;
         Account account = new Account(username, password,"",null,null);
         showProgress();
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.signInAccount(account, () -> {
             hideProgress();
             Toast.makeText(getContext(), "Account created successfully", Toast.LENGTH_SHORT).show();

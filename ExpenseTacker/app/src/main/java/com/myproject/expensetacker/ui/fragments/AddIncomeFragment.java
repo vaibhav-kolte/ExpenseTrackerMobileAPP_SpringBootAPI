@@ -1,5 +1,6 @@
 package com.myproject.expensetacker.ui.fragments;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
 import static com.myproject.expensetacker.utils.Utils.getCurrentDate;
 
 import android.content.Context;
@@ -73,7 +74,7 @@ public class AddIncomeFragment extends Fragment {
     }
 
     private void addBalance(MyExpenses myExpenses) {
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.addExpense(myExpenses, () -> {
 
         }, message -> {

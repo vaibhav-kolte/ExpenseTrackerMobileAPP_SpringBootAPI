@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -128,7 +130,7 @@ public class ShowExpensesActivity extends AppCompatActivity implements SelectedM
     }
 
     public void getExpenses(String username) {
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getAllExpensesByUsername(username, this::updateRecyclerView, message -> {
             Log.e(TAG, "getExpenses: Exception: " + message);
         });
@@ -151,7 +153,7 @@ public class ShowExpensesActivity extends AppCompatActivity implements SelectedM
     }
 
     private void showExpensesByMonth(String username, String startDate, String endDate) {
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getExpenseByDuration(username, startDate, endDate,
                 this::updateRecyclerView, message -> {
                     Log.e(TAG, "showExpensesByMonth: Exception: " + message);

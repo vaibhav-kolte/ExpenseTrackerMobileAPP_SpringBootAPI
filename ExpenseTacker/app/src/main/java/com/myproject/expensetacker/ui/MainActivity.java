@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         ShareData shareData = new ShareData(getApplication().getApplicationContext());
         String username = shareData.getString(ShareData.USERNAME, "");
 
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.downloadImage(username + ".jpg", bitmap -> {
             if (profilePhoto != null) {
                 profilePhoto.setImageBitmap(bitmap);
@@ -196,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         String username = shareData.getString(ShareData.USERNAME, "");
         File file = Utils.bitmapToFile(context, bitmap, username);
 
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.uploadProfilePhoto(username, file, () -> {
             Toast.makeText(context, "Image uploaded successfully",
                     Toast.LENGTH_SHORT).show();

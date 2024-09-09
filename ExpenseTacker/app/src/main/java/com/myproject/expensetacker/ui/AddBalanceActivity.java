@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -67,7 +69,7 @@ public class AddBalanceActivity extends AppCompatActivity {
     }
 
     private void addBalance(MyExpenses myExpenses){
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.addExpense(myExpenses, this::finish, message -> {
             Toast.makeText(context, "Something went wrong.", Toast.LENGTH_SHORT).show();
         });

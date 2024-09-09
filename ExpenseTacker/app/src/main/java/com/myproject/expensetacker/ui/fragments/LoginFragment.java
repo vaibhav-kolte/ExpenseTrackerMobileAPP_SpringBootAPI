@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui.fragments;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -99,7 +101,7 @@ public class LoginFragment extends Fragment {
     void loginAccount(String username, String password) {
         if (!checkInputs(username, password)) return;
         showProgress();
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
 
         expenseAPIs.loggedInAccount(username, account -> {
             hideProgress();

@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.adapter;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +86,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     }
 
     private void deleteExpense(MyExpenses expenses, int position) {
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.deleteExpense(expenses.getUsername(), expenses.getId(), () -> {
             PrintLog.infoLog(TAG, "deleteExpense: Expense deleted successfully.");
             expensesList.remove(position);

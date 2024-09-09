@@ -33,7 +33,7 @@ public class ShowExpensesViewModel extends ViewModel {
     }
 
     public void getExpenses(String username) {
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getAllExpensesByUsername(username, this.expensesList::setValue, message -> {
             Log.e(TAG, "getExpenses: Exception: " + message);
         });

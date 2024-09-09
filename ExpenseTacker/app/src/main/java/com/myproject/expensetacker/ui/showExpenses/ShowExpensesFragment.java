@@ -45,7 +45,7 @@ public class ShowExpensesFragment extends Fragment {
         String username = shareData.getString(ShareData.USERNAME, "");
         if (username.isEmpty()) return;
 
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getAllExpensesByUsername(username, expensesList -> {
             ExpenseAdapter adapter = new ExpenseAdapter(expensesList);
             binding.expenseRecyclerView.setHasFixedSize(true);

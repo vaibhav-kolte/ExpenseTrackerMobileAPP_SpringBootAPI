@@ -1,5 +1,7 @@
 package com.myproject.expensetacker.ui;
 
+import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -82,7 +84,7 @@ public class MonthActivity extends AppCompatActivity {
     }
 
     private void showExpensesByMonth(String username, String startDate, String endDate, List<MonthExpense> monthExpenseList) {
-        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getExpenseByDuration(username, startDate, endDate,
                 myExpensesList -> {
                     printData(myExpensesList, monthExpenseList);

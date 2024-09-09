@@ -106,7 +106,7 @@ public class TransactionFragment extends Fragment {
     }
 
     private void updateExpense(MyExpenses myExpenses) {
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.updateExpense(myExpenses, () -> {
             Toast.makeText(context, "Expense Updated successfully.", Toast.LENGTH_SHORT).show();
             this.myExpenses = null;
@@ -115,7 +115,7 @@ public class TransactionFragment extends Fragment {
     }
 
     private void addExpense(MyExpenses expenses) {
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         System.out.println("Expense " + expenses);
         expenseAPIs.addExpense(expenses, () -> {
             Toast.makeText(context, "Expense Added successfully.", Toast.LENGTH_SHORT).show();

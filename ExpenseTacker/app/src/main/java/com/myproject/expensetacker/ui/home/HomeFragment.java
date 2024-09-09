@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
         ShareData shareData = new ShareData(requireContext().getApplicationContext());
         String username = shareData.getString(ShareData.USERNAME, "");
 
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
 
         expenseAPIs.getExpenseByTypeAndDuration(username, startDate,
                 endDate, typeSummeryList -> {
@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
         ShareData shareData = new ShareData(context.getApplicationContext());
         String username = shareData.getString(ShareData.USERNAME, "");
 
-        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance(Database.RETROFIT);
+        ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
         expenseAPIs.getExpenseSummeryInCurrentMonth(username, expenseSummary -> {
             System.out.println("Expense summery: " + expenseSummary);
             binding.tvIncomeBalance.setText(String.valueOf(expenseSummary.getTotalCredit()));
