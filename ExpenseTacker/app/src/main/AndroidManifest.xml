@@ -21,9 +21,6 @@
             android:name=".ui.ShowExpensesActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.AddTransactionActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.AddExpensesActivity"
             android:exported="false" />
         <activity

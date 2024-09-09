@@ -15,7 +15,6 @@ import com.myproject.expensetacker.interfaces.apis.DownloadProfilePhoto;
 import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.ExpenseSummeryResponse;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
-import com.myproject.expensetacker.interfaces.apis.MyLogin;
 import com.myproject.expensetacker.interfaces.apis.ProfilePhotoAdded;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.UpdateExpense;
@@ -278,44 +277,6 @@ public class RetrofitManager implements ExpenseAPI {
             public void onFailure(@NonNull Call<Void> call,
                                   @NonNull Throwable t) {
                 Log.e("TAG", "onFailure: " + t);
-                exception.apiCalledFailed(t.getMessage());
-            }
-        });
-    }
-
-    @Override
-    public void getMyAccount(String username, MyLogin myLogin, APIException exception) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        Call<Account> call = apiService.checkUser(username);
-        call.enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(@NonNull Call<Account> call,
-                                   @NonNull Response<Account> response) {
-                Log.e(TAG, "onResponse: Login " + response);
-                if (response.isSuccessful()) {
-                    Account login = response.body();
-                    Log.d(TAG, "onResponse: " + login);
-                    if (login != null) {
-                        myLogin.getMyLogin(login);
-                    } else {
-                        exception.apiCalledFailed("Login response is null");
-                    }
-                } else {
-                    Log.d(TAG, "onResponse: Error");
-                    try {
-                        Gson gson = new Gson();
-                        assert response.errorBody() != null;
-                        ApiError apiError = gson.fromJson(response.errorBody().string(), ApiError.class);
-                        exception.apiCalledFailed(apiError.getDetail());
-                    } catch (IOException e) {
-                        exception.apiCalledFailed("Need to check API. Contact developer.");
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Account> call,
-                                  @NonNull Throwable t) {
                 exception.apiCalledFailed(t.getMessage());
             }
         });

@@ -209,11 +209,9 @@ public class MonthActivity extends AppCompatActivity {
 
     // Method to calculate daily credit and debit balances
     public static Map<String, Map<String, Double>> calculateDailyBalances(List<MyExpenses> expenses) {
-        // Group expenses by date
         Map<String, List<MyExpenses>> expensesByDate = expenses.stream()
                 .collect(Collectors.groupingBy(MyExpenses::getDate));
 
-        // Calculate daily credit and debit
         Map<String, Map<String, Double>> dailyBalances = new HashMap<>();
 
         for (Map.Entry<String, List<MyExpenses>> entry : expensesByDate.entrySet()) {

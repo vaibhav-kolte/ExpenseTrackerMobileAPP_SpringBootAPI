@@ -8,7 +8,6 @@ import com.myproject.expensetacker.interfaces.apis.DownloadProfilePhoto;
 import com.myproject.expensetacker.interfaces.apis.ExpenseByUsername;
 import com.myproject.expensetacker.interfaces.apis.ExpenseSummeryResponse;
 import com.myproject.expensetacker.interfaces.apis.LoginSuccessfully;
-import com.myproject.expensetacker.interfaces.apis.MyLogin;
 import com.myproject.expensetacker.interfaces.apis.ProfilePhotoAdded;
 import com.myproject.expensetacker.interfaces.apis.SigneInSuccessfully;
 import com.myproject.expensetacker.interfaces.apis.UpdateExpense;
@@ -57,11 +56,6 @@ public class RoomManager implements ExpenseAPI {
 
     @Override
     public void deleteExpense(String username, long id, DeleteExpense deleteExpense, APIException exception) {
-
-    }
-
-    @Override
-    public void getMyAccount(String username, MyLogin myLogin, APIException exception) {
 
     }
 

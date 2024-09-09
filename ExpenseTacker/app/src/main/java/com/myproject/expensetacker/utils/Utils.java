@@ -1,14 +1,10 @@
 package com.myproject.expensetacker.utils;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +16,6 @@ import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -33,7 +28,8 @@ public class Utils {
         return offsetDateTime.format(formatter);
     }
 
-    public static File bitmapToFile(Context context, Bitmap bitmap, String fileName) {
+    @Nullable
+    public static File bitmapToFile(@NonNull Context context, @NonNull Bitmap bitmap, String fileName) {
         File filesDir = context.getApplicationContext().getFilesDir();
         File imageFile = new File(filesDir, fileName + ".jpg");
 
