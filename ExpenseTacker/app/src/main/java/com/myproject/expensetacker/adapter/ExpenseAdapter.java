@@ -1,6 +1,5 @@
 package com.myproject.expensetacker.adapter;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.myproject.expensetacker.databinding.ShowExpenseLayoutBinding;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
-import com.myproject.expensetacker.ui.AddExpensesActivity;
 import com.myproject.expensetacker.ui.MainActivity;
 import com.myproject.expensetacker.utils.PrintLog;
 

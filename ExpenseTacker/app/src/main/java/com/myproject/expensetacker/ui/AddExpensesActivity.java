@@ -1,7 +1,5 @@
 package com.myproject.expensetacker.ui;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -19,13 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.myproject.expensetacker.databinding.ActivityAddExpensesBinding;
 import com.myproject.expensetacker.interfaces.DatePicker;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.Constant;
 import com.myproject.expensetacker.utils.PrintLog;
 import com.myproject.expensetacker.utils.ShareData;
 import com.myproject.expensetacker.utils.Utils;
+
+import org.jetbrains.annotations.Contract;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -69,7 +68,7 @@ public class AddExpensesActivity extends AppCompatActivity {
         Log.e(TAG, "onCreate: MyExpense: " + myExpenses);
     }
 
-    private void updateResource(MyExpenses myExpenses) {
+    private void updateResource(@NonNull MyExpenses myExpenses) {
         binding.etDate.setText(Utils.formatDate(myExpenses.getDate()));
         binding.etExpense.setText(myExpenses.getExpenseName());
         binding.etAmount.setText(String.valueOf(myExpenses.getExpenseAmount()));
@@ -80,7 +79,7 @@ public class AddExpensesActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -175,6 +174,8 @@ public class AddExpensesActivity extends AppCompatActivity {
         return dateFormat.format(currentDate);
     }
 
+    @NonNull
+    @Contract(" -> new")
     private MyExpenses getMyExpenses() throws Exception {
         if (Objects.requireNonNull(binding.etDate.getText()).toString().isEmpty() ||
                 Objects.requireNonNull(binding.etAmount.getText()).toString().isEmpty() ||

@@ -1,7 +1,5 @@
 package com.myproject.expensetacker.ui;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,8 +22,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.ActivityMainBinding;
 import com.myproject.expensetacker.databinding.NavHeaderMainBinding;
+import com.myproject.expensetacker.exceptions.ImageNotValidException;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.fragments.AddIncomeFragment;
@@ -36,6 +34,7 @@ import com.myproject.expensetacker.utils.ShareData;
 import com.myproject.expensetacker.utils.Utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -199,12 +198,16 @@ public class MainActivity extends AppCompatActivity {
         File file = Utils.bitmapToFile(context, bitmap, username);
 
         ExpenseAPI expenseAPIs = ExpenseAPIImpl.getInstance();
-        expenseAPIs.uploadProfilePhoto(username, file, () -> {
-            Toast.makeText(context, "Image uploaded successfully",
-                    Toast.LENGTH_SHORT).show();
-        }, message -> {
-            PrintLog.errorLog(TAG, "Exception: " + message);
-        });
+        try {
+            expenseAPIs.uploadProfilePhoto(username, file, () -> {
+                Toast.makeText(context, "Image uploaded successfully",
+                        Toast.LENGTH_SHORT).show();
+            }, message -> {
+                PrintLog.errorLog(TAG, "Exception: " + message);
+            });
+        } catch (ImageNotValidException e) {
+            PrintLog.errorLog(TAG, e.getMessage());
+        }
     }
 
 }

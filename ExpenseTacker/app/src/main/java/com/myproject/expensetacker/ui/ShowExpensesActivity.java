@@ -1,7 +1,5 @@
 package com.myproject.expensetacker.ui;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import com.myproject.expensetacker.databinding.ActivityShowExpensesBinding;
 import com.myproject.expensetacker.interfaces.SelectedMonth;
 import com.myproject.expensetacker.model.MonthlyView;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;

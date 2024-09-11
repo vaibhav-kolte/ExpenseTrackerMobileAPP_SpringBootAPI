@@ -1,7 +1,5 @@
 package com.myproject.expensetacker.ui;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -17,9 +15,9 @@ import com.myproject.expensetacker.adapter.MonthViewAdapter;
 import com.myproject.expensetacker.databinding.ActivityMonthBinding;
 import com.myproject.expensetacker.model.MonthExpense;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
+import com.myproject.expensetacker.utils.ShareData;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -79,11 +77,14 @@ public class MonthActivity extends AppCompatActivity {
 
         System.out.println("Start of the month: " + result[0]);
         System.out.println("Start of the next month: " + result[1]);
-        showExpensesByMonth("vaibhav", result[0], result[1], monthExpenseList);
+        showExpensesByMonth(result[0], result[1], monthExpenseList);
 
     }
 
-    private void showExpensesByMonth(String username, String startDate, String endDate, List<MonthExpense> monthExpenseList) {
+    private void showExpensesByMonth(String startDate, String endDate, List<MonthExpense> monthExpenseList) {
+        ShareData shareData = new ShareData(context);
+        String username = shareData.getString(ShareData.USERNAME, "");
+
         ExpenseAPI expenseAPI = ExpenseAPIImpl.getInstance();
         expenseAPI.getExpenseByDuration(username, startDate, endDate,
                 myExpensesList -> {
@@ -210,7 +211,8 @@ public class MonthActivity extends AppCompatActivity {
     }
 
     // Method to calculate daily credit and debit balances
-    public static Map<String, Map<String, Double>> calculateDailyBalances(List<MyExpenses> expenses) {
+    @NonNull
+    public static Map<String, Map<String, Double>> calculateDailyBalances(@NonNull List<MyExpenses> expenses) {
         Map<String, List<MyExpenses>> expensesByDate = expenses.stream()
                 .collect(Collectors.groupingBy(MyExpenses::getDate));
 

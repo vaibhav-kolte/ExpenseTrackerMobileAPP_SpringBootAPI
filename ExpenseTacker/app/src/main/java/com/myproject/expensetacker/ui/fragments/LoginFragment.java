@@ -1,7 +1,5 @@
 package com.myproject.expensetacker.ui.fragments;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.databinding.FragmentLoginBinding;
 import com.myproject.expensetacker.interfaces.NavigateInterface;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.PrintLog;

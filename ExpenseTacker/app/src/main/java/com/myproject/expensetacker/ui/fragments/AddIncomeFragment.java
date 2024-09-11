@@ -1,6 +1,5 @@
 package com.myproject.expensetacker.ui.fragments;
 
-import static com.myproject.expensetacker.utils.Constant.USED_DATABASE;
 import static com.myproject.expensetacker.utils.Utils.getCurrentDate;
 
 import android.content.Context;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 import com.myproject.expensetacker.databinding.FragmentAddIncomeBinding;
 import com.myproject.expensetacker.interfaces.DatePicker;
 import com.myproject.expensetacker.model.MyExpenses;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.utils.ShareData;

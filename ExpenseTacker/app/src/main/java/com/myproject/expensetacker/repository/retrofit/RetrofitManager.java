@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.myproject.expensetacker.exceptions.ImageNotValidException;
 import com.myproject.expensetacker.interfaces.apis.APIException;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
@@ -30,6 +31,7 @@ import com.myproject.expensetacker.repository.retrofit.services.ApiService;
 import com.myproject.expensetacker.utils.PrintLog;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -46,11 +48,10 @@ public class RetrofitManager implements ExpenseAPI {
     private static final String TAG = "RetrofitManager";
 
     @Override
-    public void uploadProfilePhoto(String username, File file, ProfilePhotoAdded profilePhotoAdded, APIException exception) {
-        if (file == null) {
-            PrintLog.errorLog(TAG, "File is null, aborting upload.");
-            return;
-        }
+    public void uploadProfilePhoto(String username, File file, ProfilePhotoAdded profilePhotoAdded,
+                                   APIException exception) throws ImageNotValidException {
+        if (file == null)
+            throw new ImageNotValidException("File is null, aborting upload.");
 
         if (file.exists() && file.length() > 0) {
             RequestBody requestFile = RequestBody.create(file, MediaType.parse("image/jpeg"));

@@ -1,5 +1,6 @@
 package com.myproject.expensetacker.repository;
 
+import com.myproject.expensetacker.exceptions.ImageNotValidException;
 import com.myproject.expensetacker.interfaces.apis.APIException;
 import com.myproject.expensetacker.interfaces.apis.AddExpenseInterface;
 import com.myproject.expensetacker.interfaces.apis.CurrentBalance;
@@ -16,11 +17,12 @@ import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.MyExpenses;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public interface ExpenseAPI {
 
     default void uploadProfilePhoto(String username, File image, ProfilePhotoAdded profilePhotoAdded,
-                                    APIException exception){
+                                    APIException exception) throws ImageNotValidException {
         System.out.println("Uploading Image.");
     }
 

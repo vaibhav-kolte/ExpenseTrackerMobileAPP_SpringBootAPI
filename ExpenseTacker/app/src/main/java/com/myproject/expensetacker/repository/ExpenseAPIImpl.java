@@ -7,20 +7,23 @@ import com.myproject.expensetacker.repository.retrofit.RetrofitManager;
 import com.myproject.expensetacker.repository.room.RoomManager;
 import com.myproject.expensetacker.utils.Constant;
 
-public abstract class ExpenseAPIImpl extends RetrofitManager {
+// We declare this class final because we don't want to inherit this class
+public final class ExpenseAPIImpl extends RetrofitManager {
 
+    // Create private constructor because don't want to create object in this class
     private ExpenseAPIImpl() {
     }
 
     @NonNull
     public static ExpenseAPI getInstance() {
         Database database = Constant.USED_DATABASE;
-        if (database.equals(Database.ROOM)) {
-            return new RoomManager();
-        } else if (database.equals(Database.FIREBASE)) {
-            return new FirebaseManager();
+        switch (database) {
+            case ROOM:
+                return new RoomManager();
+            case FIREBASE:
+                return new FirebaseManager();
+            default:
+                return new RetrofitManager();
         }
-        return new RetrofitManager();
     }
-
 }
