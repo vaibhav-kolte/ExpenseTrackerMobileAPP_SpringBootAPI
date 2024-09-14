@@ -1,5 +1,6 @@
 package com.myproject.expensetacker.repository;
 
+
 import androidx.annotation.NonNull;
 
 import com.myproject.expensetacker.repository.firebase.FirebaseManager;
@@ -17,13 +18,10 @@ public final class ExpenseAPIImpl extends RetrofitManager {
     @NonNull
     public static ExpenseAPI getInstance() {
         Database database = Constant.USED_DATABASE;
-        switch (database) {
-            case ROOM:
-                return new RoomManager();
-            case FIREBASE:
-                return new FirebaseManager();
-            default:
-                return new RetrofitManager();
-        }
+        return switch (database) {
+            case ROOM -> new RoomManager();
+            case FIREBASE -> new FirebaseManager();
+            default -> new RetrofitManager();
+        };
     }
 }

@@ -34,7 +34,6 @@ import com.myproject.expensetacker.utils.ShareData;
 import com.myproject.expensetacker.utils.Utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,17 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.appBarMain.bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) {
-                updateFragment(new HomeFragment());
-                return true;
-            } else if (id == R.id.nav_expense) {
-                updateFragment(new TransactionFragment());
-                return true;
-            } else if (id == R.id.nav_income) {
-                updateFragment(new AddIncomeFragment());
-                return true;
-            }
-            return false;
+            if (id == R.id.nav_home) updateFragment(new HomeFragment());
+            else if (id == R.id.nav_expense) updateFragment(new TransactionFragment());
+            else if (id == R.id.nav_income) updateFragment(new AddIncomeFragment());
+            else return false;
+            return true;
         });
 
         toggle = new ActionBarDrawerToggle(
@@ -96,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         binding.navView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
             if (id == R.id.nav_my_expenses) {
                 startActivity(new Intent(context, ShowExpensesActivity.class));
             } else if (id == R.id.nav_logout) {
@@ -104,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_month) {
                 startActivity(new Intent(context, MonthActivity.class));
             }
-
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
 

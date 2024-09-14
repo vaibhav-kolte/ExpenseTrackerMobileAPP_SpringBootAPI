@@ -24,6 +24,8 @@ import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class SignInFragment extends Fragment {
@@ -35,6 +37,7 @@ public class SignInFragment extends Fragment {
     private boolean isShowingConfirmPassword = false;
 
     private LoginInterface loginInterface;
+    private ExecutorService executorService;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -42,6 +45,7 @@ public class SignInFragment extends Fragment {
         binding = FragmentSignInBinding.inflate(inflater, container, false);
         handleOnClickEvents();
         context = requireContext();
+        executorService = Executors.newFixedThreadPool(2);
         return binding.getRoot();
     }
 

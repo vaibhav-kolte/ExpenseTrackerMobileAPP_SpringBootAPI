@@ -7,6 +7,7 @@ import com.mycode.myExpenseTracker.exceptions.UserNotFound;
 import com.mycode.myExpenseTracker.model.LoginAccount;
 import com.mycode.myExpenseTracker.service.ExpenseService;
 import com.mycode.myExpenseTracker.service.LoginAccountService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +35,7 @@ public class LoginAccountController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody LoginAccount loginAccount) throws InvalidInputException, UserAlreadyExistException {
+    public ResponseEntity<?> add(@RequestBody @NotNull LoginAccount loginAccount) throws InvalidInputException, UserAlreadyExistException {
         if (loginAccount.getUsername().isEmpty() || loginAccount.getMyPassword().isEmpty()) {
             throw new InvalidInputException("Username and password should not empty");
         }
@@ -76,7 +77,7 @@ public class LoginAccountController {
     }
 
     @PutMapping("/update/{username}")
-    public ResponseEntity<LoginAccount> update(@RequestBody LoginAccount loginAccount,
+    public ResponseEntity<LoginAccount> update(@RequestBody @NotNull LoginAccount loginAccount,
                                                @PathVariable String username) {
         try {
             if (loginAccount.getUsername().isEmpty() || loginAccount.getMyPassword().isEmpty()) {

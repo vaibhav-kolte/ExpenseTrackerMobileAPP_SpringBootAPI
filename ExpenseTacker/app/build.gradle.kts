@@ -27,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding = true
@@ -55,10 +55,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3") // For logging
 
 
-//    implementation("androidx.room:room-runtime:2.2.5")
-//    annotationProcessor("androidx.room:room-compiler:2.2.5")
-//    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-//    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.2.0")
+    implementation("androidx.room:room-runtime:2.2.5")
+    annotationProcessor("androidx.room:room-compiler:2.2.5")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.2.0")
 
     // Circular image view
     implementation("de.hdodenhof:circleimageview:3.1.0")

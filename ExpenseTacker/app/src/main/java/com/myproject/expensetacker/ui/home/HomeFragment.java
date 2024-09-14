@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.myproject.expensetacker.R;
 import com.myproject.expensetacker.adapter.ExpenseTypeAdapter;
 import com.myproject.expensetacker.databinding.FragmentHomeBinding;
-import com.myproject.expensetacker.repository.Database;
 import com.myproject.expensetacker.repository.ExpenseAPI;
 import com.myproject.expensetacker.repository.ExpenseAPIImpl;
 import com.myproject.expensetacker.ui.AddBalanceActivity;
