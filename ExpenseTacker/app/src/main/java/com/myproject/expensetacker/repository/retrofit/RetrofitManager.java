@@ -31,7 +31,6 @@ import com.myproject.expensetacker.repository.retrofit.services.ApiService;
 import com.myproject.expensetacker.utils.PrintLog;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 

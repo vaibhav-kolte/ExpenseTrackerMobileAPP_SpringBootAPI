@@ -17,7 +17,6 @@ import com.myproject.expensetacker.model.Account;
 import com.myproject.expensetacker.model.MyExpenses;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 public interface ExpenseAPI {
 

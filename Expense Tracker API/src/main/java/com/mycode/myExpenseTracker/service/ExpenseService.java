@@ -1,6 +1,5 @@
 package com.mycode.myExpenseTracker.service;
 
-import com.mycode.myExpenseTracker.entities.DailyTransactionSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseSummary;
 import com.mycode.myExpenseTracker.entities.ExpenseTypeSummery;
 import com.mycode.myExpenseTracker.model.Expense;
@@ -8,10 +7,7 @@ import com.mycode.myExpenseTracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,12 +60,4 @@ public class ExpenseService {
         return expenseRepository.getExpenseByDuration(username,
                 startDate, endDate);
     }
-
-    public List<DailyTransactionSummary> getDailyIncomeAndExpenses(String username, LocalDateTime year,
-                                                                   LocalDateTime month) {
-//        return expenseRepository.findExpenseSummary(username,
-//                year, month);
-        return new ArrayList<>();
-    }
-
 }
